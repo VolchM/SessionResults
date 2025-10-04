@@ -5,11 +5,11 @@
 #include <string>
 
 
-// Результат зачёта
+// Р РµР·СѓР»СЊС‚Р°С‚ Р·Р°С‡С‘С‚Р°
 class PassFailExamResult : public AttestationResult
 {
 private:
-	// Получен ли зачёт
+	// РџРѕР»СѓС‡РµРЅ Р»Рё Р·Р°С‡С‘С‚
 	bool m_passed;
 
 public:

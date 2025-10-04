@@ -6,7 +6,7 @@ PassFailExamResult::PassFailExamResult(bool passed) {
 }
 
 std::string PassFailExamResult::ToString() {
-	return m_passed ? "Зачёт" : "Незачёт";
+	return m_passed ? "Р—Р°С‡С‘С‚" : "РќРµР·Р°С‡С‘С‚";
 }
 
 int PassFailExamResult::ToPercent() {

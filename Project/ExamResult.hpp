@@ -5,11 +5,11 @@
 #include <string>
 
 
-// Результат экзамена
+// Р РµР·СѓР»СЊС‚Р°С‚ СЌРєР·Р°РјРµРЅР°
 class ExamResult : public AttestationResult
 {
 private:
-	// Полученный балл за экзамен
+	// РџРѕР»СѓС‡РµРЅРЅС‹Р№ Р±Р°Р»Р» Р·Р° СЌРєР·Р°РјРµРЅ
 	int m_score;
 
 public:
