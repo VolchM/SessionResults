@@ -129,6 +129,7 @@
     <ClCompile Include="ExamResult.cpp" />
     <ClCompile Include="PassFailExamResult.cpp" />
     <ClCompile Include="Project.cpp" />
+    <ClCompile Include="SessionResults.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttestationResult.hpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="DisciplineReferenceList.hpp" />
     <ClInclude Include="ExamResult.hpp" />
     <ClInclude Include="PassFailExamResult.hpp" />
+    <ClInclude Include="SessionResults.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
