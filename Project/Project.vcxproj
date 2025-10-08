@@ -124,12 +124,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AttestationResult.cpp" />
+    <ClCompile Include="Discipline.cpp" />
     <ClCompile Include="ExamResult.cpp" />
     <ClCompile Include="PassFailExamResult.cpp" />
     <ClCompile Include="Project.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttestationResult.hpp" />
+    <ClInclude Include="Discipline.hpp" />
     <ClInclude Include="ExamResult.hpp" />
     <ClInclude Include="PassFailExamResult.hpp" />
   </ItemGroup>
