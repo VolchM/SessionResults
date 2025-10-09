@@ -1,5 +1,7 @@
 #include "Discipline.hpp"
 
+#include "StringUtils.hpp"
+
 #include <stdexcept>
 
 
@@ -13,10 +15,11 @@ const std::string& Discipline::GetName() const {
 }
 
 void Discipline::SetName(const std::string& value) {
-	if (value.size() == 0) {
+	std::string newValue = StringUtils::Trim(value);
+	if (newValue.size() == 0) {
 		throw std::invalid_argument("Discipline name cannot be empty");
 	}
-	m_name = value;
+	m_name = std::move(newValue);
 }
 
 Discipline::AttestationType Discipline::GetAttestationType() const {
