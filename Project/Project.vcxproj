@@ -127,6 +127,7 @@
     <ClCompile Include="Discipline.cpp" />
     <ClCompile Include="DisciplineReferenceList.cpp" />
     <ClCompile Include="ExamResult.cpp" />
+    <ClCompile Include="Group.cpp" />
     <ClCompile Include="PassFailExamResult.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="SessionResults.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Discipline.hpp" />
     <ClInclude Include="DisciplineReferenceList.hpp" />
     <ClInclude Include="ExamResult.hpp" />
+    <ClInclude Include="Group.hpp" />
     <ClInclude Include="PassFailExamResult.hpp" />
     <ClInclude Include="SessionResults.hpp" />
     <ClInclude Include="StringUtils.hpp" />
