@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="AttestationResult.cpp" />
     <ClCompile Include="Discipline.cpp" />
+    <ClCompile Include="DisciplineList.cpp" />
     <ClCompile Include="DisciplineReferenceList.cpp" />
     <ClCompile Include="ExamResult.cpp" />
     <ClCompile Include="Group.cpp" />
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="AttestationResult.hpp" />
     <ClInclude Include="Discipline.hpp" />
+    <ClInclude Include="DisciplineList.hpp" />
     <ClInclude Include="DisciplineReferenceList.hpp" />
     <ClInclude Include="ExamResult.hpp" />
     <ClInclude Include="Group.hpp" />
