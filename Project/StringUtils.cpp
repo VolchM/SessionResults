@@ -19,12 +19,17 @@ std::string StringUtils::Trim(const std::string& s) {
     for (int i = 0; i < s.size(); i++) {
         if (!isspace(s[i])) {
             start = i;
+            break;
         }
     }
     for (int i = s.size()-1; i >= 0; i--) {
         if (!isspace(s[i])) {
             end = i;
+            break;
         }
+    }
+    if (start == -1 || end == -1) {
+        return "";
     }
     return s.substr(start, end - start + 1);
 }
