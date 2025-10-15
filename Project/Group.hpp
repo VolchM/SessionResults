@@ -36,8 +36,9 @@ public:
 	// Возвращает специальность группы
 	Speciality* GetSpeciality() const;
 
+
 	// Возвращает количество студентов в группе
-	int GetStudentCount();
+	int GetStudentCount() const;
 
 	// Возвращает студента по указанному индексу
 	Student* GetStudentAt(int index) const;

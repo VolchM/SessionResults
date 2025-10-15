@@ -46,7 +46,7 @@ Speciality* Group::GetSpeciality() const {
     return m_speciality;
 }
 
-int Group::GetStudentCount() {
+int Group::GetStudentCount() const {
     return m_students.size();
 }
 
