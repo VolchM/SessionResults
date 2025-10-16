@@ -1,0 +1,88 @@
+#include "Speciality.hpp"
+
+#include "StringUtils.hpp"
+
+#include <stdexcept>
+
+
+Speciality::Speciality(const std::string& code, const std::string& name) {
+    this->SetCode(code);
+    this->SetName(name);
+}
+
+Speciality::~Speciality() {
+    for (Group* group : m_groups) {
+        delete group;
+    }
+}
+
+const std::string& Speciality::GetCode() const {
+    return m_code;
+}
+
+void Speciality::SetCode(const std::string& value) {
+    if (StringUtils::ConstainsSpacesOrEmpty(value)) {
+        throw std::invalid_argument("Speciality code cannot contain spaces or be empty");
+    }
+    m_code = value;
+}
+
+const std::string& Speciality::GetName() const {
+    return m_name;
+}
+
+void Speciality::SetName(const std::string& value) {
+    std::string newValue = StringUtils::Trim(value);
+    if (newValue.size() == 0) {
+        throw std::invalid_argument("Speciality name cannot be empty");
+    }
+    m_name = std::move(newValue);
+}
+
+DisciplineList& Speciality::GetDisciplineList(int course) {
+    if (!(course >= 1 && course <= 4)) {
+        throw std::invalid_argument("Course must be a number between 1 and 4");
+    }
+    return m_disciplines[course-1];
+}
+
+int Speciality::GetGroupCount() const {
+    return m_groups.size();
+}
+
+Group* Speciality::GetGroupAt(int index) const {
+    return m_groups[index];
+}
+
+const std::vector<Group*>& Speciality::GetGroups() const {
+    return m_groups;
+}
+
+int Speciality::FindGroupByName(const std::string& name) const {
+    for (int i = 0; i < m_groups.size(); i++) {
+        if (m_groups[i]->GetName() == name) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void Speciality::AddGroup(Group* group) {
+    if (this->FindGroupByName(group->GetName()) != -1) {
+        throw std::invalid_argument("Speciality already contains added group");
+    }
+    m_groups.push_back(group);
+}
+
+void Speciality::DeleteGroupByName(const std::string& name) {
+    int index = this->FindGroupByName(name);
+    if (index == -1) {
+        throw std::invalid_argument("Speciality doesn't contain deleted group");
+    }
+    delete m_groups[index];
+    m_groups.erase(m_groups.begin() + index);
+}
+
+void Speciality::DeleteGroup(Group* group) {
+    this->DeleteGroupByName(group->GetName());
+}

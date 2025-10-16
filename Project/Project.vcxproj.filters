@@ -48,6 +48,9 @@
     <ClCompile Include="DisciplineList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Speciality.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttestationResult.hpp">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DisciplineList.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Speciality.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

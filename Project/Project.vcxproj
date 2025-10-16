@@ -132,6 +132,7 @@
     <ClCompile Include="PassFailExamResult.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="SessionResults.cpp" />
+    <ClCompile Include="Speciality.cpp" />
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="Student.cpp" />
   </ItemGroup>
@@ -144,6 +145,7 @@
     <ClInclude Include="Group.hpp" />
     <ClInclude Include="PassFailExamResult.hpp" />
     <ClInclude Include="SessionResults.hpp" />
+    <ClInclude Include="Speciality.hpp" />
     <ClInclude Include="StringUtils.hpp" />
     <ClInclude Include="Student.hpp" />
   </ItemGroup>
