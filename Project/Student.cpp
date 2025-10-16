@@ -5,11 +5,12 @@
 #include <stdexcept>
 
 
-Student::Student(Group* group, const std::string& firstName, const std::string& lastName, const std::string& middleName) {
+Student::Student(Group* group, unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName) {
     if (group == nullptr) {
         throw std::invalid_argument("Group cannot be nullptr");
     }
     m_group = group;
+    m_studentID = studentID;
     this->SetFirstName(firstName);
     this->SetLastName(lastName);
     this->SetMiddleName(middleName);

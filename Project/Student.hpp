@@ -18,7 +18,7 @@ private:
 	SessionResults m_sessionResults; // Результаты сессии
 
 public:
-	Student(Group* group, const std::string& firstName, const std::string& lastName, const std::string& middleName);
+	Student(Group* group, unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName);
 
 
 	// Возвращает номер студенческого билета
