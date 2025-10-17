@@ -16,6 +16,8 @@ public:
 	ExamResult(int score);
 
 	std::string ToString() override;
+	std::string ToStringCompact() override;
 	int ToPercent() override;
 	bool IsPassed() override;
+	int ToScore() override;
 };
