@@ -40,6 +40,7 @@ void Group::SetCourse(int value) {
     if (!(value >= 1 && value <= 4)) {
         throw std::invalid_argument("Course must be a number between 1 and 4");
     }
+    m_course = value;
 }
 
 Speciality* Group::GetSpeciality() const {
