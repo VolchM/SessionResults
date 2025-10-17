@@ -48,6 +48,9 @@ public:
 	// Возвращает полное имя (фамилию, имя и отчество)
 	std::string GetFullName() const;
 
+	// Возвращает фамилию и инициалы
+	std::string GetLastNameWithInitials() const;
+
 	// Возвращает группу студента
 	Group* GetGroup() const;
 

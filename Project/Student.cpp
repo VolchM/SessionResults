@@ -61,6 +61,10 @@ std::string Student::GetFullName() const {
     return m_firstName + " " + m_lastName + " " + m_middleName;
 }
 
+std::string Student::GetLastNameWithInitials() const {
+    return m_lastName + " " + m_firstName[0] + ". " + m_middleName[0] + ".";
+}
+
 Group* Student::GetGroup() const {
     return m_group;
 }

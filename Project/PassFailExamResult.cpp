@@ -10,7 +10,7 @@ std::string PassFailExamResult::ToString() {
 }
 
 std::string PassFailExamResult::ToStringCompact() {
-	return m_passed ? "З" : "Н";
+	return m_passed ? "Зач" : "Нез";
 }
 
 int PassFailExamResult::ToPercent() {
