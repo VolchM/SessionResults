@@ -11,9 +11,9 @@ Student::Student(Group* group, unsigned int studentID, const std::string& firstN
     }
     m_group = group;
     m_studentID = studentID;
-    this->SetFirstName(firstName);
-    this->SetLastName(lastName);
-    this->SetMiddleName(middleName);
+    SetFirstName(firstName);
+    SetLastName(lastName);
+    SetMiddleName(middleName);
 }
 
 unsigned int Student::GetStudentID() const {

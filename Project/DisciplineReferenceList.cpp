@@ -29,7 +29,7 @@ const std::vector<Discipline*>& DisciplineReferenceList::GetDisciplines() const 
 
 
 void DisciplineReferenceList::AddDiscipline(Discipline* discipline) {
-	if (this->FindDiscipline(discipline) == -1) {
+	if (FindDiscipline(discipline) == -1) {
 		m_disciplines.push_back(discipline);
 	}
 }
@@ -39,8 +39,8 @@ void DisciplineReferenceList::RemoveDisciplineAt(int index) {
 }
 
 void DisciplineReferenceList::RemoveDiscipline(Discipline* discipline) {
-	int index = this->FindDiscipline(discipline);
+	int index = FindDiscipline(discipline);
 	if (index != -1) {
-		this->RemoveDisciplineAt(index);
+		RemoveDisciplineAt(index);
 	}
 }

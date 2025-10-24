@@ -6,7 +6,7 @@
 
 
 Discipline::Discipline(std::string name, AttestationType attestationType) {
-	this->SetName(name);
+	SetName(name);
 	m_attestationType = attestationType;
 }
 

@@ -10,8 +10,8 @@ Group::Group(Speciality* speciality, const std::string& name, int course) {
         throw std::invalid_argument("Speciality cannot be nullptr");
     }
     m_speciality = speciality;
-    this->SetName(name);
-    this->SetCourse(course);
+    SetName(name);
+    SetCourse(course);
 }
 
 Group::~Group() {
@@ -69,14 +69,14 @@ int Group::FindStudentByID(unsigned int studentID) const {
 }
 
 void Group::AddStudent(Student* student) {
-    if (this->FindStudentByID(student->GetStudentID()) != -1) {
+    if (FindStudentByID(student->GetStudentID()) != -1) {
         throw std::invalid_argument("Added student is already in group");
     }
     m_students.push_back(student);
 }
 
 void Group::DeleteStudentByID(unsigned int studentID) {
-    int index = this->FindStudentByID(studentID);
+    int index = FindStudentByID(studentID);
     if (index == -1) {
         throw std::invalid_argument("Deleted student is not in group");
     }
@@ -85,5 +85,5 @@ void Group::DeleteStudentByID(unsigned int studentID) {
 }
 
 void Group::DeleteStudent(Student* student) {
-    this->DeleteStudentByID(student->GetStudentID());
+    DeleteStudentByID(student->GetStudentID());
 }

@@ -52,7 +52,7 @@ std::vector<int> GroupTableData::DisciplineAverages() const {
 }
 
 int GroupTableData::GroupAverage() const {
-	std::vector<int> studentAverages = this->StudentAverages();
+	std::vector<int> studentAverages = StudentAverages();
 	int res = 0;
 	for (int i = 0; i < m_students.size(); i++) {
 		res += studentAverages[i];

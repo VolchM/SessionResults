@@ -33,7 +33,7 @@ DisciplineReferenceList DisciplineList::GetDisciplineReferenceList() const {
 }
 
 void DisciplineList::AddDiscipline(Discipline* discipline) {
-	if (this->ContainsDiscipline(discipline)) {
+	if (ContainsDiscipline(discipline)) {
 		throw std::invalid_argument("Added discipline is already in list");
 	}
 	m_disciplines.push_back(discipline);

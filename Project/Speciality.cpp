@@ -6,8 +6,8 @@
 
 
 Speciality::Speciality(const std::string& code, const std::string& name) {
-    this->SetCode(code);
-    this->SetName(name);
+    SetCode(code);
+    SetName(name);
 }
 
 Speciality::~Speciality() {
@@ -68,14 +68,14 @@ int Speciality::FindGroupByName(const std::string& name) const {
 }
 
 void Speciality::AddGroup(Group* group) {
-    if (this->FindGroupByName(group->GetName()) != -1) {
+    if (FindGroupByName(group->GetName()) != -1) {
         throw std::invalid_argument("Speciality already contains added group");
     }
     m_groups.push_back(group);
 }
 
 void Speciality::DeleteGroupByName(const std::string& name) {
-    int index = this->FindGroupByName(name);
+    int index = FindGroupByName(name);
     if (index == -1) {
         throw std::invalid_argument("Speciality doesn't contain deleted group");
     }
@@ -84,5 +84,5 @@ void Speciality::DeleteGroupByName(const std::string& name) {
 }
 
 void Speciality::DeleteGroup(Group* group) {
-    this->DeleteGroupByName(group->GetName());
+    DeleteGroupByName(group->GetName());
 }
