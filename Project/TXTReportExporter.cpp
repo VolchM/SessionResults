@@ -2,47 +2,62 @@
 
 #include <fstream>
 
+
+const char TABLE_CROSS_SYMBOL = '+';
+const char TABLE_HORIZONTAL_SYMBOL = '-';
+const char TABLE_VERTICAL_SYMBOL = '|';
+
+const std::string FIO_COLUMN_HEADER = "ФИО";
+const std::string AVERAGE_COLUMN_HEADER = "Средний балл";
+const int EXTRA_COLUMNS_COUNT = 2;
+
+const int MIN_COLUMN_WIDTH = 1;
+const int RESULT_COLUMN_WIDTH = 3;
+const int CELL_PADDING = 1;
+
+
 std::vector<int> TXTReportExporter::CalculateColumnWidths(GroupTableData data) {
-	std::vector<int> widths(data.GetDisciplines().size() + 2, 1);
-	widths[0] = 3;
+	std::vector<int> widths(data.GetDisciplines().size() + EXTRA_COLUMNS_COUNT, MIN_COLUMN_WIDTH);
+	widths[0] = std::max(widths[0], static_cast<int>(FIO_COLUMN_HEADER.length()));
 	for (Student* student : data.GetStudents()) {
-		widths[0] = std::max(widths[0], (int)student->GetLastNameWithInitials().size());
+		widths[0] = std::max(widths[0], static_cast<int>(student->GetLastNameWithInitials().length()));
 	}
 	for (int i = 1; i <= data.GetDisciplines().size(); i++) {
-		widths[i] = 3;
+		widths[i] = std::max(widths[i], RESULT_COLUMN_WIDTH);
 	}
-	widths.back() = 12;
+	widths.back() = std::max(widths.back(), static_cast<int>(AVERAGE_COLUMN_HEADER.length()));
 
 	return widths;
 }
 
 std::string TXTReportExporter::TableSeparator(const std::vector<int>& widths) {
-	std::string separator = "+";
+	std::string separator(1, TABLE_CROSS_SYMBOL);
 	for (int width : widths) {
-		separator.append(width + 2, '-');
-		separator.push_back('+');
+		separator.append(width + CELL_PADDING * 2, TABLE_HORIZONTAL_SYMBOL);
+		separator.push_back(TABLE_CROSS_SYMBOL);
 	}
 	return separator;
 }
 
 std::string TXTReportExporter::TableRow(const std::vector<std::string>& cells, const std::vector<int>& widths) {
-	std::string row = "|";
+	std::string row(1, TABLE_VERTICAL_SYMBOL);
 	for (int i = 0; i < widths.size(); i++) {
-		row.append(" ");
-		row.append(std::max(0, (int)(widths[i] - cells[i].size())), ' ');
+		row.append(CELL_PADDING, ' ');
+		row.append(std::max(0, static_cast<int>(widths[i] - cells[i].length())), ' ');
 		row.append(cells[i]);
-		row.append(" |");
+		row.append(CELL_PADDING, ' ');
+		row.push_back(TABLE_VERTICAL_SYMBOL);
 	}
 	return row;
 }
 
 std::string TXTReportExporter::TableHeader(const GroupTableData& data, const std::vector<int>& widths) {
 	std::vector<std::string> cells;
-	cells.push_back("ФИО");
+	cells.push_back(FIO_COLUMN_HEADER);
 	for (int i = 1; i <= data.GetDisciplines().size(); i++) {
 		cells.push_back(std::to_string(i));
 	}
-	cells.push_back("Средний балл");
+	cells.push_back(AVERAGE_COLUMN_HEADER);
 
 	return TableRow(cells, widths);
 }
@@ -96,7 +111,7 @@ void TXTReportExporter::Export(const GroupTable& groupTable, std::string filenam
 	fout << separator << std::endl;
 	fout << TableHeader(data, widths) << std::endl;
 	fout << separator << std::endl;
-	for (std::string row : TableBodyToStrings(data, widths)) {
+	for (const std::string &row : TableBodyToStrings(data, widths)) {
 		fout << row << std::endl;
 	}
 	fout << separator << std::endl;
