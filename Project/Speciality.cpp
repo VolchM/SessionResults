@@ -40,8 +40,8 @@ void Speciality::SetName(const std::string& value) {
 }
 
 DisciplineList& Speciality::GetDisciplineList(int course) {
-    if (!(course >= 1 && course <= 4)) {
-        throw std::invalid_argument("Course must be a number between 1 and 4");
+    if (!(course >= MIN_COURSE && course <= MAX_COURSE)) {
+        throw std::invalid_argument("Invalid course value");
     }
     return m_disciplines[course-1];
 }

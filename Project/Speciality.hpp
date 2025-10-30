@@ -8,10 +8,14 @@
 
 
 class Speciality {
+public:
+	static const int MIN_COURSE = 1;
+	static const int MAX_COURSE = 4;
+
 private:
 	std::string m_code; // Код специальности
 	std::string m_name; // Название специальности
-	DisciplineList m_disciplines[4]; // Список дисциплин на каждом курсе
+	DisciplineList m_disciplines[MAX_COURSE]; // Список дисциплин на каждом курсе
 	std::vector<Group*> m_groups; // Список групп
 
 public:

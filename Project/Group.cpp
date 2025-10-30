@@ -1,6 +1,7 @@
 #include "Group.hpp"
 
 #include "StringUtils.hpp"
+#include "Speciality.hpp"
 
 #include <stdexcept>
 
@@ -37,8 +38,8 @@ int Group::GetCourse() const {
 }
 
 void Group::SetCourse(int value) {
-    if (!(value >= 1 && value <= 4)) {
-        throw std::invalid_argument("Course must be a number between 1 and 4");
+    if (!(value >= Speciality::MIN_COURSE && value <= Speciality::MAX_COURSE)) {
+        throw std::invalid_argument("Invalid course value");
     }
     m_course = value;
 }

@@ -7,6 +7,8 @@
 class AttestationResult
 {
 public:
+	static const int MAX_PERCENT = 100;
+
 	// Преобразует результат в строку
 	virtual std::string ToString() = 0;
 

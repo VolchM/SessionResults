@@ -4,8 +4,8 @@
 
 
 ExamResult::ExamResult(int score) {
-	if (score < 0 || score > 100) {
-		throw std::invalid_argument("Score must be between 0 and 100");
+	if (score < MIN_SCORE || score > MAX_SCORE) {
+		throw std::invalid_argument("Invalid score value");
 	}
 	m_score = score;
 }
@@ -19,11 +19,11 @@ std::string ExamResult::ToStringCompact() {
 }
 
 int ExamResult::ToPercent() {
-	return m_score;
+	return ((m_score - MIN_SCORE) * MAX_PERCENT / (MAX_SCORE - MIN_SCORE));
 }
 
 bool ExamResult::IsPassed() {
-	return m_score >= 25;
+	return m_score >= PASS_SCORE;
 }
 
 int ExamResult::ToScore() {

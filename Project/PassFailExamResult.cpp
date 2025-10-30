@@ -14,7 +14,7 @@ std::string PassFailExamResult::ToStringCompact() {
 }
 
 int PassFailExamResult::ToPercent() {
-	return m_passed ? 100 : 0;
+	return m_passed ? MAX_PERCENT : 0;
 }
 
 bool PassFailExamResult::IsPassed() {
