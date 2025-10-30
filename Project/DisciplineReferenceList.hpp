@@ -7,6 +7,9 @@
 
 // Класс для хранения списка ссылок на дисциплины
 class DisciplineReferenceList {
+public:
+	static const int DISCIPLINE_NOT_FOUND = -1;
+
 private:
 	std::vector<Discipline*> m_disciplines; // массив указателей на дисциплины
 
@@ -23,7 +26,7 @@ public:
 	// Возвращает массив указателей на дисциплины
 	const std::vector<Discipline*>& GetDisciplines() const;
 
-	// Находит дисциплину и возвращает её индекс. Если такой дисциплины нет в списке возвращает -1
+	// Находит дисциплину и возвращает её индекс. Если такой дисциплины нет в списке возвращает DISCIPLINE_NOT_FOUND
 	int FindDiscipline(Discipline* discipline) const;
 
 	

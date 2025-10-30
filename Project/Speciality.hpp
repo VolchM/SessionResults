@@ -12,6 +12,8 @@ public:
 	static const int MIN_COURSE = 1;
 	static const int MAX_COURSE = 4;
 
+	static const int GROUP_NOT_FOUND = -1;
+
 private:
 	std::string m_code; // Код специальности
 	std::string m_name; // Название специальности
@@ -48,7 +50,7 @@ public:
 	// Возвращает список групп
 	const std::vector<Group*>& GetGroups() const;
 
-	// Находит группу по названию и возвращает её индекс. Если такой группы нет в списке возвращает -1
+	// Находит группу по названию и возвращает её индекс. Если такой группы нет в списке возвращает GROUP_NOT_FOUND
 	int FindGroupByName(const std::string& name) const;
 
 

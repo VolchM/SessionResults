@@ -64,11 +64,11 @@ int Speciality::FindGroupByName(const std::string& name) const {
             return i;
         }
     }
-    return -1;
+    return GROUP_NOT_FOUND;
 }
 
 void Speciality::AddGroup(Group* group) {
-    if (FindGroupByName(group->GetName()) != -1) {
+    if (FindGroupByName(group->GetName()) != GROUP_NOT_FOUND) {
         throw std::invalid_argument("Speciality already contains added group");
     }
     m_groups.push_back(group);
@@ -76,7 +76,7 @@ void Speciality::AddGroup(Group* group) {
 
 void Speciality::DeleteGroupByName(const std::string& name) {
     int index = FindGroupByName(name);
-    if (index == -1) {
+    if (index == GROUP_NOT_FOUND) {
         throw std::invalid_argument("Speciality doesn't contain deleted group");
     }
     delete m_groups[index];

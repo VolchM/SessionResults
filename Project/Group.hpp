@@ -10,6 +10,9 @@ class Speciality;
 
 // Группа
 class Group {
+public:
+	static const int STUDENT_NOT_FOUND = -1;
+
 private:
 	std::string m_name; // Название группы
 	int m_course; // Курс обучения
@@ -46,7 +49,7 @@ public:
 	// Возврашает список студентов
 	const std::vector<Student*>& GetStudents() const;
 
-	// Находит студента по номеру студенческго билета и возвращает его индекс. Если такого студента нет в списке возвращает -1
+	// Находит студента по номеру студенческго билета и возвращает его индекс. Если такого студента нет в списке возвращает STUDENT_NOT_FOUND
 	int FindStudentByID(unsigned int studentID) const;
 
 

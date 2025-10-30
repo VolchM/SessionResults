@@ -66,11 +66,11 @@ int Group::FindStudentByID(unsigned int studentID) const {
             return i;
         }
     }
-    return -1;
+    return STUDENT_NOT_FOUND;
 }
 
 void Group::AddStudent(Student* student) {
-    if (FindStudentByID(student->GetStudentID()) != -1) {
+    if (FindStudentByID(student->GetStudentID()) != STUDENT_NOT_FOUND) {
         throw std::invalid_argument("Added student is already in group");
     }
     m_students.push_back(student);
@@ -78,7 +78,7 @@ void Group::AddStudent(Student* student) {
 
 void Group::DeleteStudentByID(unsigned int studentID) {
     int index = FindStudentByID(studentID);
-    if (index == -1) {
+    if (index == STUDENT_NOT_FOUND) {
         throw std::invalid_argument("Deleted student is not in group");
     }
     delete m_students[index];
