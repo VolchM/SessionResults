@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SessionResults
+namespace SessionResultsCS
 {
     // Перечисление типов аттестации
     public enum AttestationType

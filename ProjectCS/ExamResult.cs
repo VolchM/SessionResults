@@ -1,6 +1,6 @@
 using System;
 
-namespace SessionResults
+namespace SessionResultsCS
 {
     // Результат экзамена
     public class ExamResult : AttestationResult

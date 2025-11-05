@@ -1,6 +1,6 @@
 using System;
 
-namespace SessionResults
+namespace SessionResultsCS
 {
     // Абстрактный класс - Результат аттестации
     public abstract class AttestationResult

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SessionResults
+namespace SessionResultsCS
 {
     // Класс для хранения списка дисциплин
     public class DisciplineList
