@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SessionResultsCS
 {
@@ -37,9 +38,9 @@ namespace SessionResultsCS
         }
 
         // Возвращает массив дисциплин
-        public List<Discipline> GetDisciplines()
+        public ReadOnlyCollection<Discipline> GetDisciplines()
         {
-            return _disciplines;
+            return _disciplines.AsReadOnly();
         }
 
         // Находит дисциплину и возвращает её индекс. Если такой дисциплины нет в списке возвращает DISCIPLINE_NOT_FOUND
