@@ -37,7 +37,7 @@ namespace SessionResultsCS
 
         public override int ToScore()
         {
-            return 0;
+            return ToPercent();
         }
     }
 }
