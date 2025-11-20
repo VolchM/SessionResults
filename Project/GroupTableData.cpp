@@ -1,23 +1,24 @@
 #include "GroupTableData.hpp"
 
 
-GroupTableData::GroupTableData(const std::vector<Student*>& students, const std::vector<Discipline*>& disciplines,
-	const std::vector<std::vector<AttestationResult*>>& tableBody) :
+GroupTableData::GroupTableData(const StudentArray& students, const DisciplineArray& disciplines,
+	const AttestationResultTable& tableBody) :
 	m_students(students), m_disciplines(disciplines), m_tableBody(tableBody) { }
 
-GroupTableData::GroupTableData(std::vector<Student*>&& students, std::vector<Discipline*>&& disciplines,
-	std::vector<std::vector<AttestationResult*>>&& tableBody) :
+GroupTableData::GroupTableData(StudentArray&& students, DisciplineArray&& disciplines,
+	AttestationResultTable&& tableBody) :
 	m_students(std::move(students)), m_disciplines(std::move(disciplines)), m_tableBody(std::move(tableBody)) { }
 
-const std::vector<Student*>& GroupTableData::GetStudents() const {
+
+const GroupTableData::StudentArray& GroupTableData::GetStudents() const {
 	return m_students;
 }
 
-const std::vector<Discipline*>& GroupTableData::GetDisciplines() const {
+const GroupTableData::DisciplineArray& GroupTableData::GetDisciplines() const {
 	return m_disciplines;
 }
 
-const std::vector<std::vector<AttestationResult*>>& GroupTableData::GetTableBody() const {
+const GroupTableData::AttestationResultTable& GroupTableData::GetTableBody() const {
 	return m_tableBody;
 }
 

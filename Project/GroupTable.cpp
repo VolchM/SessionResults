@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-GroupTable::GroupTable(Group* group, bool includeOnlyFailing) {
+GroupTable::GroupTable(std::shared_ptr<Group> group, bool includeOnlyFailing) {
     if (group == nullptr) {
         throw std::invalid_argument("Group cannot be nullptr");
     }
@@ -14,7 +14,7 @@ GroupTable::GroupTable(Group* group, bool includeOnlyFailing) {
     m_sortOrder = SortOrder::eAscending;
 }
 
-Group* GroupTable::GetGroup() const {
+std::shared_ptr<Group> GroupTable::GetGroup() const {
     return m_group;
 };
 
@@ -26,23 +26,23 @@ void GroupTable::SetIncludeOnlyFailing(bool value) {
     m_includeOnlyFailing = value;
 }
 
-const DisciplineReferenceList& GroupTable::GetDisciplineReferenceList() const {
+const DisciplineList& GroupTable::GetDisciplineList() const {
     return m_disciplines;
 }
 
-DisciplineReferenceList& GroupTable::GetDisciplineReferenceList() {
+DisciplineList& GroupTable::GetDisciplineList() {
     return m_disciplines;
 }
 
-void GroupTable::SetDisciplineReferenceList(const DisciplineReferenceList& disciplines) {
+void GroupTable::SetDisciplineList(const DisciplineList& disciplines) {
     m_disciplines = disciplines;
 }
 
-void GroupTable::SetDisciplineReferenceList(const std::vector<Discipline*>& disciplines) {
-    m_disciplines = DisciplineReferenceList(disciplines);
+void GroupTable::SetDisciplineList(const std::vector<std::shared_ptr<Discipline>>& disciplines) {
+    m_disciplines = DisciplineList(disciplines);
 }
 
-void GroupTable::SortByDiscipline(Discipline* discipline, SortOrder sortOrder) {
+void GroupTable::SortByDiscipline(std::shared_ptr<Discipline> discipline, SortOrder sortOrder) {
     m_sortColumn = discipline;
     m_sortOrder = sortOrder;
 }
@@ -53,14 +53,14 @@ void GroupTable::SortByAverage(SortOrder sortOrder) {
 }
 
 GroupTableData GroupTable::GetTableData() const {
-    std::vector<Student*> students;
-    std::vector<Discipline*> disciplines;
-    std::vector<std::vector<AttestationResult*>> tableBody;
+    GroupTableData::StudentArray students;
+    GroupTableData::DisciplineArray disciplines;
+    GroupTableData::AttestationResultTable tableBody;
 
     disciplines = m_disciplines.GetDisciplines();
-    for (Student* student : m_group->GetStudents()) {
-        for (Discipline* discipline : disciplines) {
-            AttestationResult* res = student->GetSessionResults().GetResult(discipline);
+    for (auto& student : m_group->GetStudents()) {
+        for (auto& discipline : disciplines) {
+            const std::shared_ptr<AttestationResult>& res = student->GetSessionResults().GetResult(discipline);
             if (!m_includeOnlyFailing || res == nullptr || !res->IsPassed()) {
                 students.push_back(student);
                 break;
@@ -69,25 +69,22 @@ GroupTableData GroupTable::GetTableData() const {
     }
 
     if (m_sortColumn != nullptr) {
-        std::sort(students.begin(), students.end(), [&](Student* student1, Student* student2) {
-            AttestationResult *res1, *res2;
-            int percent1, percent2;
+        std::sort(students.begin(), students.end(), [&](auto& student1, auto& student2) {
+            const std::shared_ptr<AttestationResult> &res1 = student1->GetSessionResults().GetResult(m_sortColumn);
+            const std::shared_ptr<AttestationResult> &res2 = student2->GetSessionResults().GetResult(m_sortColumn);
 
-            res1 = student1->GetSessionResults().GetResult(m_sortColumn);
-            res2 = student2->GetSessionResults().GetResult(m_sortColumn);
-            percent1 = res1 ? res1->ToPercent() : 0;
-            percent2 = res2 ? res2->ToPercent() : 0;
+            int score1 = res1 ? res1->ToScore() : 0;
+            int score2 = res2 ? res2->ToScore() : 0;
 
-            return m_sortOrder == SortOrder::eAscending ? percent1 < percent2 : percent1 > percent2;
+            return m_sortOrder == SortOrder::eAscending ? score1 < score2 : score1 > score2;
         });
     } else {
-        std::sort(students.begin(), students.end(), [&](Student* student1, Student* student2) {
-            AttestationResult *res1, *res2;
+        std::sort(students.begin(), students.end(), [&](auto& student1, auto& student2) {
             int sum1 = 0, sum2 = 0;
 
-            for (Discipline* discipline : disciplines) {
-                res1 = student1->GetSessionResults().GetResult(discipline);
-                res2 = student2->GetSessionResults().GetResult(discipline);
+            for (auto& discipline : disciplines) {
+                const std::shared_ptr<AttestationResult>& res1 = student1->GetSessionResults().GetResult(discipline);
+                const std::shared_ptr<AttestationResult>& res2 = student2->GetSessionResults().GetResult(discipline);
                 sum1 += res1 ? res1->ToScore() : 0;
                 sum2 += res2 ? res2->ToScore() : 0;
             }
@@ -96,9 +93,9 @@ GroupTableData GroupTable::GetTableData() const {
         });
     }
 
-    for (Student* student : students) {
+    for (auto& student : students) {
         tableBody.emplace_back();
-        for (Discipline* discipline : disciplines) {
+        for (auto& discipline : disciplines) {
             tableBody.back().push_back(student->GetSessionResults().GetResult(discipline));
         }
     }

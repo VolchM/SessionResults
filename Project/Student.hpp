@@ -3,6 +3,7 @@
 #include "SessionResults.hpp"
 
 #include <string>
+#include <memory>
 
 
 class Group;
@@ -14,11 +15,11 @@ private:
 	std::string m_firstName; // Имя
 	std::string m_lastName; // Фамилия
 	std::string m_middleName; // Отчество
-	Group* m_group; // Группа
+	std::weak_ptr<Group> m_group; // Группа
 	SessionResults m_sessionResults; // Результаты сессии
 
 public:
-	Student(Group* group, unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName);
+	Student(std::shared_ptr<Group> group, unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName);
 
 
 	// Возвращает номер студенческого билета
@@ -52,7 +53,7 @@ public:
 	std::string GetLastNameWithInitials() const;
 
 	// Возвращает группу студента
-	Group* GetGroup() const;
+	std::weak_ptr<Group> GetGroup() const;
 
 	// Возвращает результаты сессии для чтения и изменения
 	SessionResults& GetSessionResults();

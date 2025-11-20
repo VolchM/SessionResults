@@ -4,28 +4,28 @@
 #include "ExamResult.hpp"
 #include "PassFailExamResult.hpp"
 #include "Discipline.hpp"
-#include "DisciplineReferenceList.hpp"
+#include "DisciplineList.hpp"
 
 #include <vector>
+#include <memory>
 
 
 // Результаты сессии
 class SessionResults {
 private:
-	DisciplineReferenceList m_disciplines; // Список дисциплин, по которым получены результаты
-	std::vector<AttestationResult*> m_results; // Список полученных результатов
+	DisciplineList m_disciplines; // Список дисциплин, по которым получены результаты
+	std::vector<std::shared_ptr<AttestationResult>> m_results; // Список полученных результатов
 
 public:
 	SessionResults();
-	~SessionResults();
 
 
 	// Возвращает результат по дисциплине
-	AttestationResult* GetResult(Discipline* discipline);
+	std::shared_ptr<AttestationResult> GetResult(std::shared_ptr<Discipline> discipline);
 
 	// Устанавливает результат по дисциплине
-	void SetResult(Discipline* discipline, AttestationResult* result);
+	void SetResult(std::shared_ptr<Discipline> discipline, std::shared_ptr<AttestationResult> result);
 
 	// Удаляет результат по дисциплине
-	void DeleteResult(Discipline* discipline);
+	void DeleteResult(std::shared_ptr<Discipline> discipline);
 };

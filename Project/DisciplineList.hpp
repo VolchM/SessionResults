@@ -1,36 +1,42 @@
 #pragma once
 
 #include "Discipline.hpp"
-#include "DisciplineReferenceList.hpp"
 
 #include <vector>
+#include <memory>
 
 
-// Класс для хранения списка дисциплин
+// Класс для хранения списка ссылок на дисциплины
 class DisciplineList {
+public:
+	static const int DISCIPLINE_NOT_FOUND = -1;
+
 private:
-	std::vector<Discipline*> m_disciplines; // Массив дисциплин
+	std::vector<std::shared_ptr<Discipline>> m_disciplines; // массив указателей на дисциплины
 
 public:
 	DisciplineList();
-	~DisciplineList();
+	DisciplineList(const std::vector<std::shared_ptr<Discipline>>& disciplines);
 
 	// Возвращает количество дисциплин в списке
 	int GetSize() const;
 
-	// Проверяет, содержится ли дисциплина в списке
-	bool ContainsDiscipline(Discipline* discipline) const;
-
+	// Возвращает дисциплину по указанному индексу
+	std::shared_ptr<Discipline> GetDisciplineAt(int index) const;
+	
 	// Возвращает массив указателей на дисциплины
-	const std::vector<Discipline*>& GetDisciplines() const;
+	const std::vector<std::shared_ptr<Discipline>>& GetDisciplines() const;
 
-	// Возвращает новый объект класса DisciplineReferenceList, хранящий список ссылок на дисциплины
-	DisciplineReferenceList GetDisciplineReferenceList() const;
+	// Находит дисциплину и возвращает её индекс. Если такой дисциплины нет в списке возвращает DISCIPLINE_NOT_FOUND
+	int FindDiscipline(std::shared_ptr<Discipline> discipline) const;
 
+	
+	// Добавляет дисциплину в список и возвращает true при успешном добавлении, иначе false
+	bool AddDiscipline(std::shared_ptr<Discipline> discipline);
 
-	// Добавляет дисциплину
-	void AddDiscipline(Discipline* discipline);
+	// Убирает дисциплину по индексу
+	void RemoveDisciplineAt(int index);
 
-	// Удаляет дисциплину
-	void DeleteDiscipline(Discipline* discipline);
+	// Убирает дисциплину из списка и возвращает true при успешном удалении, иначе false
+	bool RemoveDiscipline(std::shared_ptr<Discipline> discipline);
 };

@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 
-Group::Group(Speciality* speciality, const std::string& name, int course) {
+Group::Group(std::shared_ptr<Speciality> speciality, const std::string& name, int course) {
     if (speciality == nullptr) {
         throw std::invalid_argument("Speciality cannot be nullptr");
     }
@@ -15,11 +15,6 @@ Group::Group(Speciality* speciality, const std::string& name, int course) {
     SetCourse(course);
 }
 
-Group::~Group() {
-    for (Student* student : m_students) {
-        delete student;
-    }
-}
 
 const std::string& Group::GetName() const {
     return m_name;
@@ -44,7 +39,7 @@ void Group::SetCourse(int value) {
     m_course = value;
 }
 
-Speciality* Group::GetSpeciality() const {
+std::weak_ptr<Speciality> Group::GetSpeciality() const {
     return m_speciality;
 }
 
@@ -52,11 +47,11 @@ int Group::GetStudentCount() const {
     return m_students.size();
 }
 
-Student* Group::GetStudentAt(int index) const {
+std::shared_ptr<Student> Group::GetStudentAt(int index) const {
     return m_students[index];
 }
 
-const std::vector<Student*>& Group::GetStudents() const {
+const std::vector<std::shared_ptr<Student>>& Group::GetStudents() const {
     return m_students;
 }
 
@@ -69,7 +64,7 @@ int Group::FindStudentByID(unsigned int studentID) const {
     return STUDENT_NOT_FOUND;
 }
 
-void Group::AddStudent(Student* student) {
+void Group::AddStudent(std::shared_ptr<Student> student) {
     if (FindStudentByID(student->GetStudentID()) != STUDENT_NOT_FOUND) {
         throw std::invalid_argument("Added student is already in group");
     }
@@ -81,10 +76,9 @@ void Group::DeleteStudentByID(unsigned int studentID) {
     if (index == STUDENT_NOT_FOUND) {
         throw std::invalid_argument("Deleted student is not in group");
     }
-    delete m_students[index];
     m_students.erase(m_students.begin() + index);
 }
 
-void Group::DeleteStudent(Student* student) {
+void Group::DeleteStudent(std::shared_ptr<Student> student) {
     DeleteStudentByID(student->GetStudentID());
 }

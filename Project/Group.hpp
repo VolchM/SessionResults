@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 
 class Speciality;
@@ -16,12 +17,11 @@ public:
 private:
 	std::string m_name; // Название группы
 	int m_course; // Курс обучения
-	Speciality* m_speciality; // Специальность группы
-	std::vector<Student*> m_students; // Cписок студентов
+	std::weak_ptr<Speciality> m_speciality; // Специальность группы
+	std::vector<std::shared_ptr<Student>> m_students; // Cписок студентов
 
 public:
-	Group(Speciality* speciality, const std::string& name, int course);
-	~Group();
+	Group(std::shared_ptr<Speciality> speciality, const std::string& name, int course);
 
 
 	// Возвращает название группы
@@ -37,28 +37,28 @@ public:
 	void SetCourse(int value);
 
 	// Возвращает специальность группы
-	Speciality* GetSpeciality() const;
+	std::weak_ptr<Speciality> GetSpeciality() const;
 
 
 	// Возвращает количество студентов в группе
 	int GetStudentCount() const;
 
 	// Возвращает студента по указанному индексу
-	Student* GetStudentAt(int index) const;
+	std::shared_ptr<Student> GetStudentAt(int index) const;
 
 	// Возврашает список студентов
-	const std::vector<Student*>& GetStudents() const;
+	const std::vector<std::shared_ptr<Student>>& GetStudents() const;
 
 	// Находит студента по номеру студенческго билета и возвращает его индекс. Если такого студента нет в списке возвращает STUDENT_NOT_FOUND
 	int FindStudentByID(unsigned int studentID) const;
 
 
 	// Добавляет студента
-	void AddStudent(Student* student);
+	void AddStudent(std::shared_ptr<Student> student);
 
 	// Удаляет студента по номеру студенческого билета
 	void DeleteStudentByID(unsigned int studentID);
 
 	// Удаляет студента
-	void DeleteStudent(Student* student);
+	void DeleteStudent(std::shared_ptr<Student> student);
 };

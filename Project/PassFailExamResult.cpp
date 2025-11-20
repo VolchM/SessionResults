@@ -22,5 +22,5 @@ bool PassFailExamResult::IsPassed() {
 }
 
 int PassFailExamResult::ToScore() {
-	return 0;
+	return ToPercent();
 }
