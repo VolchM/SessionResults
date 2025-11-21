@@ -46,14 +46,7 @@ namespace SessionResultsCS
         // Находит дисциплину и возвращает её индекс. Если такой дисциплины нет в списке возвращает DISCIPLINE_NOT_FOUND
         public int FindDiscipline(Discipline discipline)
         {
-            for (int i = 0; i < _disciplines.Count; i++)
-            {
-                if (_disciplines[i].Equals(discipline))
-                {
-                    return i;
-                }
-            }
-            return -1;
+            return _disciplines.IndexOf(discipline);
         }
 
         // Добавляет дисциплину в список и возвращает true при успешном добавлении, иначе false

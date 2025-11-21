@@ -66,7 +66,7 @@ namespace SessionResultsCS
             {
                 students = Group.GetStudents().Where(st => 
                     disciplines.Select(d => st.SessionResults.GetResult(d))
-                               .Any(res => res == null || !res.IsPassed())
+                               .Any(res => res is null || !res.IsPassed())
                 ).ToArray();
             }
             else
@@ -75,7 +75,7 @@ namespace SessionResultsCS
             }
 
             Func<Student, int> func;
-            if (_sortColumn != null)
+            if (_sortColumn is not null)
             {
                 func = student => student.SessionResults.GetResult(_sortColumn)?.ToScore() ?? 0;
             }
