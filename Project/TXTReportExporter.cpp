@@ -1,6 +1,8 @@
 #include "TXTReportExporter.hpp"
 
 #include <fstream>
+#include <chrono>
+#include <iomanip>
 
 
 const char TABLE_CROSS_SYMBOL = '+';
@@ -93,20 +95,31 @@ std::string TXTReportExporter::TableDisciplineAverages(const GroupTableData& dat
 	return TableRow(cells, widths);
 }
 
-void TXTReportExporter::Export(const GroupTable& groupTable, std::string filename) {
+TXTReportExporter::TXTReportExporter(const std::string& filePath, const std::string& title, const std::string& body, bool includeDate) :
+	ReportExporter(filePath, title, body, includeDate) {}
+
+TXTReportExporter::TXTReportExporter(const TXTReportExporter& other):
+	ReportExporter(other) {}
+
+void TXTReportExporter::Export(const GroupTable& groupTable) {
 	GroupTableData data = groupTable.GetTableData();
 	std::vector<int> widths = CalculateColumnWidths(data);
 	std::string separator = TableSeparator(widths);
 
-	std::ofstream fout(filename);
+	std::ofstream fout(m_filePath);
 
-	if (!groupTable.GetIncludeOnlyFailing()) {
-		fout << "Отчет об успеваемости студентов группы " << groupTable.GetGroup()->GetName() << std::endl;
-	} else {
-		fout << "Отчет о неуспевающих студентах группы " << groupTable.GetGroup()->GetName() << std::endl;
+	if (!m_title.empty()) {
+		fout << m_title << std::endl << std::endl;
 	}
-
-	fout << std::endl;
+	if (!m_body.empty()) {
+		fout << m_body << std::endl << std::endl;
+	}
+	if (m_includeDate) {
+		time_t now = time(0);
+		std::tm tmNow;
+		localtime_s(&tmNow, &now);
+		fout << "Дата генерации: " << std::put_time(&tmNow, "%d.%m.%Y") << std::endl << std::endl;
+	}
 
 	fout << separator << std::endl;
 	fout << TableHeader(data, widths) << std::endl;

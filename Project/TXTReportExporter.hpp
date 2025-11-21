@@ -13,6 +13,9 @@ private:
 	static std::vector<std::string> TableBodyToStrings(const GroupTableData& data, const std::vector<int>& widths);
 	static std::string TableDisciplineAverages(const GroupTableData& data, const std::vector<int>& widths);
 public:
-	void Export(const GroupTable& groupTable, std::string filename) override;
+	TXTReportExporter(const std::string& filePath, const std::string& title = "", const std::string& body = "", bool includeDate = false);
+	TXTReportExporter(const TXTReportExporter& other);
+
+	void Export(const GroupTable& groupTable) override;
 };
 
