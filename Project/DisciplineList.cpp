@@ -5,6 +5,8 @@ DisciplineList::DisciplineList(): m_disciplines() {}
 
 DisciplineList::DisciplineList(const std::vector<std::shared_ptr<Discipline>>& disciplines): m_disciplines(disciplines) {}
 
+DisciplineList::DisciplineList(const DisciplineList& other): m_disciplines(other.m_disciplines) {}
+
 
 int DisciplineList::GetSize() const {
 	return m_disciplines.size();

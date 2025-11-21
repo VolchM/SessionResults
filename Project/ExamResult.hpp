@@ -19,6 +19,7 @@ private:
 
 public:
 	ExamResult(int score);
+	ExamResult(const ExamResult& other);
 
 	std::string ToString() const override;
 	std::string ToStringCompact() const override;

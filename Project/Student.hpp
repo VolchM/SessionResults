@@ -20,6 +20,7 @@ private:
 
 public:
 	Student(unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName);
+	Student(const Student& other) = delete;
 
 
 	// Возвращает номер студенческого билета

@@ -3,6 +3,8 @@
 
 SessionResults::SessionResults(): m_disciplines(), m_results() {}
 
+SessionResults::SessionResults(const SessionResults& other): m_disciplines(other.m_disciplines), m_results(other.m_results) {}
+
 
 std::shared_ptr<AttestationResult> SessionResults::GetResult(std::shared_ptr<Discipline> discipline) {
 	int index = m_disciplines.FindDiscipline(discipline);

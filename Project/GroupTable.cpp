@@ -14,6 +14,13 @@ GroupTable::GroupTable(std::shared_ptr<Group> group, bool includeOnlyFailing) {
     m_sortOrder = SortOrder::eAscending;
 }
 
+GroupTable::GroupTable(const GroupTable& other) {
+    m_group = other.m_group;
+    m_includeOnlyFailing = other.m_includeOnlyFailing;
+    m_sortColumn = other.m_sortColumn;
+    m_sortOrder = other.m_sortOrder;
+}
+
 std::shared_ptr<Group> GroupTable::GetGroup() const {
     return m_group;
 };

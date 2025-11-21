@@ -22,6 +22,7 @@ private:
 
 public:
 	Group(const std::string& name, int course);
+	Group(const Group& other) = delete;
 
 
 	// Возвращает название группы

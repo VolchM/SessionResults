@@ -20,6 +20,7 @@ private:
 
 public:
 	Discipline(std::string name, AttestationType attestationType);
+	Discipline(const Discipline& other);
 
 
 	// Возвращает название дисциплины

@@ -5,6 +5,8 @@ PassFailExamResult::PassFailExamResult(bool passed) {
 	m_passed = passed;
 }
 
+PassFailExamResult::PassFailExamResult(const PassFailExamResult& other): m_passed(other.m_passed) {}
+
 std::string PassFailExamResult::ToString() const {
 	return m_passed ? "Зачёт" : "Незачёт";
 }

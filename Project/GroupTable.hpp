@@ -28,6 +28,7 @@ private:
 
 public:
 	GroupTable(std::shared_ptr<Group> group, bool includeOnlyFailing = false);
+	GroupTable(const GroupTable& other);
 
 
 	// Возвращает группу, по которой сформирована таблица

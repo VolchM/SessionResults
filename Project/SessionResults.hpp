@@ -18,6 +18,7 @@ private:
 
 public:
 	SessionResults();
+	SessionResults(const SessionResults& other);
 
 
 	// Возвращает результат по дисциплине

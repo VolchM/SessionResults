@@ -24,6 +24,7 @@ public:
 		const AttestationResultTable& tableBody);
 	GroupTableData(StudentArray&& students, DisciplineArray&& disciplines,
 		AttestationResultTable&& tableBody);
+	GroupTableData(const GroupTableData& other);
 
 
 	// Возвращает массив студентов в порядке вхождения в таблицу

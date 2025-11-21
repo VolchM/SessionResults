@@ -14,6 +14,7 @@ private:
 
 public:
 	PassFailExamResult(bool passed);
+	PassFailExamResult(const PassFailExamResult& other);
 
 	std::string ToString() const override;
 	std::string ToStringCompact() const override;

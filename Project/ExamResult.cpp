@@ -10,6 +10,8 @@ ExamResult::ExamResult(int score) {
 	m_score = score;
 }
 
+ExamResult::ExamResult(const ExamResult& other): m_score(other.m_score) {}
+
 std::string ExamResult::ToString() const {
 	return std::to_string(m_score);
 }

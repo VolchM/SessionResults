@@ -9,6 +9,8 @@ GroupTableData::GroupTableData(StudentArray&& students, DisciplineArray&& discip
 	AttestationResultTable&& tableBody) :
 	m_students(std::move(students)), m_disciplines(std::move(disciplines)), m_tableBody(std::move(tableBody)) { }
 
+GroupTableData::GroupTableData(const GroupTableData& other) :
+	m_students(other.m_students), m_disciplines(other.m_disciplines), m_tableBody(other.m_tableBody) { }
 
 const GroupTableData::StudentArray& GroupTableData::GetStudents() const {
 	return m_students;

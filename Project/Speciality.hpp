@@ -23,6 +23,7 @@ private:
 
 public:
 	Speciality(const std::string& code, const std::string& name);
+	Speciality(const Speciality& other) = delete;
 
 
 	// Возвращает код специальности

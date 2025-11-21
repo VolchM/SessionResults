@@ -17,6 +17,7 @@ private:
 public:
 	DisciplineList();
 	DisciplineList(const std::vector<std::shared_ptr<Discipline>>& disciplines);
+	DisciplineList(const DisciplineList& other);
 
 	// Возвращает количество дисциплин в списке
 	int GetSize() const;

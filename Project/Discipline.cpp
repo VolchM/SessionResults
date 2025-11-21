@@ -10,6 +10,8 @@ Discipline::Discipline(std::string name, AttestationType attestationType) {
 	m_attestationType = attestationType;
 }
 
+Discipline::Discipline(const Discipline& other): m_name(other.m_name), m_attestationType(other.m_attestationType) {}
+
 const std::string& Discipline::GetName() const {
 	return m_name;
 }
