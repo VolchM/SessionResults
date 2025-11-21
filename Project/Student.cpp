@@ -5,11 +5,7 @@
 #include <stdexcept>
 
 
-Student::Student(std::shared_ptr<Group> group, unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName) {
-    if (group == nullptr) {
-        throw std::invalid_argument("Group cannot be nullptr");
-    }
-    m_group = group;
+Student::Student(unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName) {
     m_studentID = studentID;
     SetFirstName(firstName);
     SetLastName(lastName);

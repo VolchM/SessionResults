@@ -8,7 +8,7 @@
 #include <memory>
 
 
-class Speciality {
+class Speciality : public std::enable_shared_from_this<Speciality> {
 public:
 	static const int MIN_COURSE = 1;
 	static const int MAX_COURSE = 4;
@@ -39,6 +39,9 @@ public:
 
 	// Возвращает список дисциплин курса для чтения и изменения
 	DisciplineList& GetDisciplineList(int course);
+
+	// Возвращает список дисциплин курса для чтения
+	const DisciplineList& GetDisciplineList(int course) const;
 
 
 	// Возвращает количество групп специальности

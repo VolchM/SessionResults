@@ -41,6 +41,13 @@ DisciplineList& Speciality::GetDisciplineList(int course) {
     return m_disciplines[course-1];
 }
 
+const DisciplineList& Speciality::GetDisciplineList(int course) const {
+    if (!(course >= MIN_COURSE && course <= MAX_COURSE)) {
+        throw std::invalid_argument("Invalid course value");
+    }
+    return m_disciplines[course - 1];
+}
+
 int Speciality::GetGroupCount() const {
     return m_groups.size();
 }
@@ -66,7 +73,11 @@ void Speciality::AddGroup(std::shared_ptr<Group> group) {
     if (FindGroupByName(group->GetName()) != GROUP_NOT_FOUND) {
         throw std::invalid_argument("Speciality already contains added group");
     }
+    if (!group->m_speciality.expired()) {
+        throw std::runtime_error("Group is already added to another speciality");
+    }
     m_groups.push_back(group);
+    group->m_speciality = weak_from_this();
 }
 
 void Speciality::DeleteGroupByName(const std::string& name) {
@@ -74,6 +85,7 @@ void Speciality::DeleteGroupByName(const std::string& name) {
     if (index == GROUP_NOT_FOUND) {
         throw std::invalid_argument("Speciality doesn't contain deleted group");
     }
+    m_groups[index]->m_speciality.reset();
     m_groups.erase(m_groups.begin() + index);
 }
 

@@ -7,10 +7,10 @@
 #include <memory>
 
 
-class Speciality;
-
 // Группа
-class Group {
+class Group : public std::enable_shared_from_this<Group> {
+	friend class Speciality;
+
 public:
 	static const int STUDENT_NOT_FOUND = -1;
 
@@ -21,7 +21,7 @@ private:
 	std::vector<std::shared_ptr<Student>> m_students; // Cписок студентов
 
 public:
-	Group(std::shared_ptr<Speciality> speciality, const std::string& name, int course);
+	Group(const std::string& name, int course);
 
 
 	// Возвращает название группы
@@ -38,6 +38,9 @@ public:
 
 	// Возвращает специальность группы
 	std::weak_ptr<Speciality> GetSpeciality() const;
+
+	// Возвращает список дисциплин группы
+	const DisciplineList& GetDisciplineList() const;
 
 
 	// Возвращает количество студентов в группе
