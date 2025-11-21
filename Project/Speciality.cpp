@@ -4,10 +4,20 @@
 
 #include <stdexcept>
 
+int Speciality::s_instanceCount = 0;
+
+int Speciality::GetInstanceCount() {
+    return s_instanceCount;
+}
 
 Speciality::Speciality(const std::string& code, const std::string& name) {
     SetCode(code);
     SetName(name);
+    s_instanceCount++;
+}
+
+Speciality::~Speciality() {
+    s_instanceCount--;
 }
 
 

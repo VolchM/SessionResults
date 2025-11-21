@@ -16,15 +16,21 @@ public:
 	static const int GROUP_NOT_FOUND = -1;
 
 private:
+	static int s_instanceCount; // Количество существующих объектов специальностей
+
 	std::string m_code; // Код специальности
 	std::string m_name; // Название специальности
 	DisciplineList m_disciplines[MAX_COURSE]; // Список дисциплин на каждом курсе
 	std::vector<std::shared_ptr<Group>> m_groups; // Список групп
 
 public:
+	// Возвращает количество существующих объектов специальностей
+	static int GetInstanceCount();
+
+
 	Speciality(const std::string& code, const std::string& name);
 	Speciality(const Speciality& other) = delete;
-
+	~Speciality();
 
 	// Возвращает код специальности
 	const std::string& GetCode() const;
