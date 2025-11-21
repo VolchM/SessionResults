@@ -16,7 +16,7 @@ std::shared_ptr<Discipline> DisciplineList::GetDisciplineAt(int index) const {
 
 int DisciplineList::FindDiscipline(std::shared_ptr<Discipline> discipline) const {
 	for (int i = 0; i < m_disciplines.size(); i++) {
-		if (m_disciplines[i]->Equals(*discipline)) {
+		if (*m_disciplines[i] == *discipline) {
 			return i;
 		}
 	}

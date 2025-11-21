@@ -33,3 +33,11 @@ void Discipline::SetAttestationType(Discipline::AttestationType value) {
 bool Discipline::Equals(const Discipline& other) const {
 	return m_name == other.GetName() && m_attestationType == other.GetAttestationType();
 }
+
+bool Discipline::operator==(const Discipline& other) {
+	return this->Equals(other);
+}
+
+bool Discipline::operator!=(const Discipline& other) {
+	return !(*this == other);
+}
