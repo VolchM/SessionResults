@@ -42,15 +42,22 @@ namespace SessionResultsCS
         // Проверяет равенство с другой дисциплин
         public override bool Equals(object? obj)
         {
-            Discipline? other = obj as Discipline;
-            if (other == null)
+            if (obj is Discipline other)
             {
-                return false;
+                return this == other;
             }
-            else
-            {
-                return Name == other.Name && AttestationType == other.AttestationType;
-            }
+            return false;
+        }
+
+
+        public static bool operator ==(Discipline left, Discipline right)
+        {
+            return left.Name == right.Name && left.AttestationType == right.AttestationType;
+        }
+
+        public static bool operator !=(Discipline left, Discipline right)
+        {
+            return !(left == right);
         }
     }
 }

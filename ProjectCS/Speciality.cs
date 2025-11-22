@@ -19,6 +19,10 @@ namespace SessionResultsCS
         private DisciplineList[] _disciplines;
 
 
+        // Количество существующих объектов специальностей
+        public static int InstanceCount { get; private set; } = 0;
+
+
         // Код специальности
         public string Code
         {
@@ -59,6 +63,12 @@ namespace SessionResultsCS
             {
                 _disciplines[i] = new DisciplineList();
             }
+            InstanceCount++;
+        }
+
+        ~Speciality()
+        {
+            InstanceCount--;
         }
 
 

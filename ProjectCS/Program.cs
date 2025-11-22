@@ -23,6 +23,17 @@ namespace SessionResultsCS
             pi43.AddStudent(new Student(pi43, 12303537, "Алексей", "Алексеев", "Алексеевич"));
             pi43.AddStudent(new Student(pi43, 12303890, "Дмитрий", "Дмитриев", "Дмитриевич"));
 
+            try
+            {
+                pi43.AddStudent(new Student(pi43, 12303690, "Иван    Иванов", "Иванович", ""));
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine("Поймано исключение:");
+                Console.WriteLine(ex);
+            }
+            Console.WriteLine($"Создано специальностей: {Speciality.InstanceCount}");
+
 
             Random rand = new Random(1);
             foreach (Student student in pi43.GetStudents())

@@ -32,43 +32,42 @@ namespace SessionResultsCS
             int[] widths = CalculateColumnWidths(data);
             string separator = TableSeparator(widths);
 
-            StreamWriter writer = new StreamWriter(FilePath);
-
-            if (Title != null)
+            using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                writer.WriteLine(Title);
+                if (Title != null)
+                {
+                    writer.WriteLine(Title);
+                    writer.WriteLine();
+                }
+                if (Body != null)
+                {
+                    writer.WriteLine(Body);
+                    writer.WriteLine();
+                }
+                if (IncludeDate)
+                {
+                    writer.WriteLine($"Дата генерации: {DateTime.Today.ToShortDateString()}");
+                    writer.WriteLine();
+                }
+
+                writer.WriteLine(separator);
+                writer.WriteLine(TableHeader(widths));
+                writer.WriteLine(separator);
+                foreach (string row in TableBodyToStrings(data, widths))
+                {
+                    writer.WriteLine(row);
+                }
+                writer.WriteLine(separator);
+                writer.WriteLine(TableDisciplineAverages(data, widths));
+                writer.WriteLine(separator);
+
                 writer.WriteLine();
-            }
-            if (Body != null)
-            {
-                writer.WriteLine(Body);
-                writer.WriteLine();
-            }
-            if (IncludeDate)
-            {
-                writer.WriteLine($"Дата генерации: {DateTime.Today.ToShortDateString()}");
-                writer.WriteLine();
-            }
 
-            writer.WriteLine(separator);
-            writer.WriteLine(TableHeader(widths));
-            writer.WriteLine(separator);
-            foreach (string row in TableBodyToStrings(data, widths))
-            {
-                writer.WriteLine(row);
+                for (int i = 0; i < data.Disciplines.Length; i++)
+                {
+                    writer.WriteLine($"{i + 1} - {data.Disciplines[i].Name}");
+                }
             }
-            writer.WriteLine(separator);
-            writer.WriteLine(TableDisciplineAverages(data, widths));
-            writer.WriteLine(separator);
-
-            writer.WriteLine();
-
-            for (int i = 0; i < data.Disciplines.Length; i++)
-            {
-                writer.WriteLine($"{i + 1} - {data.Disciplines[i].Name}");
-            }
-
-            writer.Close();
         }
 
 
