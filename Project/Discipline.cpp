@@ -10,6 +10,8 @@ Discipline::Discipline(std::string name, AttestationType attestationType) {
 	m_attestationType = attestationType;
 }
 
+Discipline::Discipline(const Discipline& other): m_name(other.m_name), m_attestationType(other.m_attestationType) {}
+
 const std::string& Discipline::GetName() const {
 	return m_name;
 }
@@ -32,4 +34,12 @@ void Discipline::SetAttestationType(Discipline::AttestationType value) {
 
 bool Discipline::Equals(const Discipline& other) const {
 	return m_name == other.GetName() && m_attestationType == other.GetAttestationType();
+}
+
+bool Discipline::operator==(const Discipline& other) {
+	return this->Equals(other);
+}
+
+bool Discipline::operator!=(const Discipline& other) {
+	return !(*this == other);
 }

@@ -19,10 +19,11 @@ private:
 
 public:
 	ExamResult(int score);
+	ExamResult(const ExamResult& other);
 
-	std::string ToString() override;
-	std::string ToStringCompact() override;
-	int ToPercent() override;
-	bool IsPassed() override;
-	int ToScore() override;
+	std::string ToString() const override;
+	std::string ToStringCompact() const override;
+	int ToPercent() const override;
+	bool IsPassed() const override;
+	int ToScore() const override;
 };

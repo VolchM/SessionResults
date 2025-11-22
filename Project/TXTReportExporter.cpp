@@ -1,6 +1,8 @@
 #include "TXTReportExporter.hpp"
 
 #include <fstream>
+#include <chrono>
+#include <iomanip>
 
 
 const char TABLE_CROSS_SYMBOL = '+';
@@ -19,7 +21,7 @@ const int CELL_PADDING = 1;
 std::vector<int> TXTReportExporter::CalculateColumnWidths(GroupTableData data) {
 	std::vector<int> widths(data.GetDisciplines().size() + EXTRA_COLUMNS_COUNT, MIN_COLUMN_WIDTH);
 	widths[0] = std::max(widths[0], static_cast<int>(FIO_COLUMN_HEADER.length()));
-	for (Student* student : data.GetStudents()) {
+	for (auto& student : data.GetStudents()) {
 		widths[0] = std::max(widths[0], static_cast<int>(student->GetLastNameWithInitials().length()));
 	}
 	for (int i = 1; i <= data.GetDisciplines().size(); i++) {
@@ -71,7 +73,7 @@ std::vector<std::string> TXTReportExporter::TableBodyToStrings(const GroupTableD
 
 		cells[0] = data.GetStudents()[i]->GetLastNameWithInitials();
 		for (int j = 0; j < data.GetDisciplines().size(); j++) {
-			AttestationResult* res = data.GetTableBody()[i][j];
+			const std::shared_ptr<AttestationResult>& res = data.GetTableBody()[i][j];
 			cells[j + 1] = res ? res->ToStringCompact() : "";
 		}
 		cells.back() = std::to_string(studentAverages[i]);
@@ -93,20 +95,31 @@ std::string TXTReportExporter::TableDisciplineAverages(const GroupTableData& dat
 	return TableRow(cells, widths);
 }
 
-void TXTReportExporter::Export(const GroupTable& groupTable, std::string filename) {
+TXTReportExporter::TXTReportExporter(const std::string& filePath, const std::string& title, const std::string& body, bool includeDate) :
+	ReportExporter(filePath, title, body, includeDate) {}
+
+TXTReportExporter::TXTReportExporter(const TXTReportExporter& other):
+	ReportExporter(other) {}
+
+void TXTReportExporter::Export(const GroupTable& groupTable) {
 	GroupTableData data = groupTable.GetTableData();
 	std::vector<int> widths = CalculateColumnWidths(data);
 	std::string separator = TableSeparator(widths);
 
-	std::ofstream fout(filename);
+	std::ofstream fout(m_filePath);
 
-	if (!groupTable.GetIncludeOnlyFailing()) {
-		fout << "Отчет об успеваемости студентов группы " << groupTable.GetGroup()->GetName() << std::endl;
-	} else {
-		fout << "Отчет о неуспевающих студентах группы " << groupTable.GetGroup()->GetName() << std::endl;
+	if (!m_title.empty()) {
+		fout << m_title << std::endl << std::endl;
 	}
-
-	fout << std::endl;
+	if (!m_body.empty()) {
+		fout << m_body << std::endl << std::endl;
+	}
+	if (m_includeDate) {
+		time_t now = time(0);
+		std::tm tmNow;
+		localtime_s(&tmNow, &now);
+		fout << "Дата генерации: " << std::put_time(&tmNow, "%d.%m.%Y") << std::endl << std::endl;
+	}
 
 	fout << separator << std::endl;
 	fout << TableHeader(data, widths) << std::endl;
@@ -120,7 +133,7 @@ void TXTReportExporter::Export(const GroupTable& groupTable, std::string filenam
 
 	fout << std::endl;
 
-	for (int i = 0; i < groupTable.GetDisciplineReferenceList().GetSize(); i++) {
-		fout << (i+1) << " - " << groupTable.GetDisciplineReferenceList().GetDisciplineAt(i)->GetName() << std::endl;
+	for (int i = 0; i < data.GetDisciplines().size(); i++) {
+		fout << (i+1) << " - " << data.GetDisciplines()[i]->GetName() << std::endl;
 	}
 }

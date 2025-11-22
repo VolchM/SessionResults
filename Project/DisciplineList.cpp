@@ -1,51 +1,52 @@
 #include "DisciplineList.hpp"
 
-#include <stdexcept>
-
 
 DisciplineList::DisciplineList(): m_disciplines() {}
 
-DisciplineList::~DisciplineList() {
-	for (Discipline* discipline : m_disciplines) {
-		delete discipline;
-	}
-}
+DisciplineList::DisciplineList(const std::vector<std::shared_ptr<Discipline>>& disciplines): m_disciplines(disciplines) {}
+
+DisciplineList::DisciplineList(const DisciplineList& other): m_disciplines(other.m_disciplines) {}
+
 
 int DisciplineList::GetSize() const {
 	return m_disciplines.size();
 }
 
-bool DisciplineList::ContainsDiscipline(Discipline* discipline) const {
-	for (Discipline* el : m_disciplines) {
-		if (el->Equals(*discipline)) {
-			return true;
-		}
-	}
-	return false;
+std::shared_ptr<Discipline> DisciplineList::GetDisciplineAt(int index) const {
+	return m_disciplines[index];
 }
 
-const std::vector<Discipline*>& DisciplineList::GetDisciplines() const {
+int DisciplineList::FindDiscipline(std::shared_ptr<Discipline> discipline) const {
+	for (int i = 0; i < m_disciplines.size(); i++) {
+		if (*m_disciplines[i] == *discipline) {
+			return i;
+		}
+	}
+	return DISCIPLINE_NOT_FOUND;
+}
+
+const std::vector<std::shared_ptr<Discipline>>& DisciplineList::GetDisciplines() const {
 	return m_disciplines;
 }
 
-DisciplineReferenceList DisciplineList::GetDisciplineReferenceList() const {
-	return DisciplineReferenceList(m_disciplines);
-}
 
-void DisciplineList::AddDiscipline(Discipline* discipline) {
-	if (ContainsDiscipline(discipline)) {
-		throw std::invalid_argument("Added discipline is already in list");
+bool DisciplineList::AddDiscipline(std::shared_ptr<Discipline> discipline) {
+	if (FindDiscipline(discipline) != DISCIPLINE_NOT_FOUND) {
+		return false;
 	}
 	m_disciplines.push_back(discipline);
+	return true;
 }
 
-void DisciplineList::DeleteDiscipline(Discipline* discipline) {
-	for (int i = 0; i < m_disciplines.size(); i++) {
-		if (m_disciplines[i]->Equals(*discipline)) {
-			delete m_disciplines[i];
-			m_disciplines.erase(m_disciplines.begin() + i);
-			return;
-		}
+void DisciplineList::RemoveDisciplineAt(int index) {
+	m_disciplines.erase(m_disciplines.begin() + index);
+}
+
+bool DisciplineList::RemoveDiscipline(std::shared_ptr<Discipline> discipline) {
+	int index = FindDiscipline(discipline);
+	if (index == DISCIPLINE_NOT_FOUND) {
+		return false;
 	}
-	throw std::invalid_argument("Deleted discipline is not in list");
+	RemoveDisciplineAt(index);
+	return true;
 }

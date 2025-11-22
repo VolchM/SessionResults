@@ -4,17 +4,22 @@
 
 #include <stdexcept>
 
+int Speciality::s_instanceCount = 0;
+
+int Speciality::GetInstanceCount() {
+    return s_instanceCount;
+}
 
 Speciality::Speciality(const std::string& code, const std::string& name) {
     SetCode(code);
     SetName(name);
+    s_instanceCount++;
 }
 
 Speciality::~Speciality() {
-    for (Group* group : m_groups) {
-        delete group;
-    }
+    s_instanceCount--;
 }
+
 
 const std::string& Speciality::GetCode() const {
     return m_code;
@@ -46,15 +51,22 @@ DisciplineList& Speciality::GetDisciplineList(int course) {
     return m_disciplines[course-1];
 }
 
+const DisciplineList& Speciality::GetDisciplineList(int course) const {
+    if (!(course >= MIN_COURSE && course <= MAX_COURSE)) {
+        throw std::invalid_argument("Invalid course value");
+    }
+    return m_disciplines[course - 1];
+}
+
 int Speciality::GetGroupCount() const {
     return m_groups.size();
 }
 
-Group* Speciality::GetGroupAt(int index) const {
+std::shared_ptr<Group> Speciality::GetGroupAt(int index) const {
     return m_groups[index];
 }
 
-const std::vector<Group*>& Speciality::GetGroups() const {
+const std::vector<std::shared_ptr<Group>>& Speciality::GetGroups() const {
     return m_groups;
 }
 
@@ -67,11 +79,15 @@ int Speciality::FindGroupByName(const std::string& name) const {
     return GROUP_NOT_FOUND;
 }
 
-void Speciality::AddGroup(Group* group) {
+void Speciality::AddGroup(std::shared_ptr<Group> group) {
     if (FindGroupByName(group->GetName()) != GROUP_NOT_FOUND) {
         throw std::invalid_argument("Speciality already contains added group");
     }
+    if (!group->m_speciality.expired()) {
+        throw std::runtime_error("Group is already added to another speciality");
+    }
     m_groups.push_back(group);
+    group->m_speciality = weak_from_this();
 }
 
 void Speciality::DeleteGroupByName(const std::string& name) {
@@ -79,10 +95,10 @@ void Speciality::DeleteGroupByName(const std::string& name) {
     if (index == GROUP_NOT_FOUND) {
         throw std::invalid_argument("Speciality doesn't contain deleted group");
     }
-    delete m_groups[index];
+    m_groups[index]->m_speciality.reset();
     m_groups.erase(m_groups.begin() + index);
 }
 
-void Speciality::DeleteGroup(Group* group) {
+void Speciality::DeleteGroup(std::shared_ptr<Group> group) {
     DeleteGroupByName(group->GetName());
 }

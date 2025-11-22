@@ -5,9 +5,10 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 
-class Speciality {
+class Speciality : public std::enable_shared_from_this<Speciality> {
 public:
 	static const int MIN_COURSE = 1;
 	static const int MAX_COURSE = 4;
@@ -15,15 +16,21 @@ public:
 	static const int GROUP_NOT_FOUND = -1;
 
 private:
+	static int s_instanceCount; // Количество существующих объектов специальностей
+
 	std::string m_code; // Код специальности
 	std::string m_name; // Название специальности
 	DisciplineList m_disciplines[MAX_COURSE]; // Список дисциплин на каждом курсе
-	std::vector<Group*> m_groups; // Список групп
+	std::vector<std::shared_ptr<Group>> m_groups; // Список групп
 
 public:
-	Speciality(const std::string& code, const std::string& name);
-	~Speciality();
+	// Возвращает количество существующих объектов специальностей
+	static int GetInstanceCount();
 
+
+	Speciality(const std::string& code, const std::string& name);
+	Speciality(const Speciality& other) = delete;
+	~Speciality();
 
 	// Возвращает код специальности
 	const std::string& GetCode() const;
@@ -40,26 +47,29 @@ public:
 	// Возвращает список дисциплин курса для чтения и изменения
 	DisciplineList& GetDisciplineList(int course);
 
+	// Возвращает список дисциплин курса для чтения
+	const DisciplineList& GetDisciplineList(int course) const;
+
 
 	// Возвращает количество групп специальности
 	int GetGroupCount() const;
 
 	// Возвращает группу по указанному индексу
-	Group* GetGroupAt(int index) const;
+	std::shared_ptr<Group> GetGroupAt(int index) const;
 
 	// Возвращает список групп
-	const std::vector<Group*>& GetGroups() const;
+	const std::vector<std::shared_ptr<Group>>& GetGroups() const;
 
 	// Находит группу по названию и возвращает её индекс. Если такой группы нет в списке возвращает GROUP_NOT_FOUND
 	int FindGroupByName(const std::string& name) const;
 
 
 	// Добавляет группу
-	void AddGroup(Group* group);
+	void AddGroup(std::shared_ptr<Group> group);
 
 	// Удаляет группу по названию
 	void DeleteGroupByName(const std::string& name);
 
 	// Удаляет группу
-	void DeleteGroup(Group* group);
+	void DeleteGroup(std::shared_ptr<Group> group);
 };

@@ -10,22 +10,24 @@ ExamResult::ExamResult(int score) {
 	m_score = score;
 }
 
-std::string ExamResult::ToString() {
+ExamResult::ExamResult(const ExamResult& other): m_score(other.m_score) {}
+
+std::string ExamResult::ToString() const {
 	return std::to_string(m_score);
 }
 
-std::string ExamResult::ToStringCompact() {
+std::string ExamResult::ToStringCompact() const {
 	return std::to_string(m_score);
 }
 
-int ExamResult::ToPercent() {
+int ExamResult::ToPercent() const {
 	return ((m_score - MIN_SCORE) * MAX_PERCENT / (MAX_SCORE - MIN_SCORE));
 }
 
-bool ExamResult::IsPassed() {
+bool ExamResult::IsPassed() const {
 	return m_score >= PASS_SCORE;
 }
 
-int ExamResult::ToScore() {
+int ExamResult::ToScore() const {
 	return m_score;
 }

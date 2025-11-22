@@ -20,6 +20,7 @@ private:
 
 public:
 	Discipline(std::string name, AttestationType attestationType);
+	Discipline(const Discipline& other);
 
 
 	// Возвращает название дисциплины
@@ -36,4 +37,8 @@ public:
 
 	// Проверяет равенство с другой дисциплин
 	bool Equals(const Discipline& other) const;
+
+	bool operator==(const Discipline& other);
+
+	bool operator!=(const Discipline& other);
 };

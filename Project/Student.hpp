@@ -3,22 +3,24 @@
 #include "SessionResults.hpp"
 
 #include <string>
+#include <memory>
 
-
-class Group;
 
 // Студент
-class Student {
+class Student : public std::enable_shared_from_this<Student> {
+	friend class Group;
+
 private:
 	unsigned int m_studentID; // Номер студенческого билета
 	std::string m_firstName; // Имя
 	std::string m_lastName; // Фамилия
 	std::string m_middleName; // Отчество
-	Group* m_group; // Группа
+	std::weak_ptr<Group> m_group; // Группа
 	SessionResults m_sessionResults; // Результаты сессии
 
 public:
-	Student(Group* group, unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName);
+	Student(unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName);
+	Student(const Student& other) = delete;
 
 
 	// Возвращает номер студенческого билета
@@ -52,7 +54,7 @@ public:
 	std::string GetLastNameWithInitials() const;
 
 	// Возвращает группу студента
-	Group* GetGroup() const;
+	std::weak_ptr<Group> GetGroup() const;
 
 	// Возвращает результаты сессии для чтения и изменения
 	SessionResults& GetSessionResults();

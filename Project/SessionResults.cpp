@@ -3,13 +3,10 @@
 
 SessionResults::SessionResults(): m_disciplines(), m_results() {}
 
-SessionResults::~SessionResults() {
-	for (AttestationResult* result : m_results) {
-		delete result;
-	}
-}
+SessionResults::SessionResults(const SessionResults& other): m_disciplines(other.m_disciplines), m_results(other.m_results) {}
 
-AttestationResult* SessionResults::GetResult(Discipline* discipline) {
+
+std::shared_ptr<AttestationResult> SessionResults::GetResult(std::shared_ptr<Discipline> discipline) {
 	int index = m_disciplines.FindDiscipline(discipline);
 	if (index != -1) {
 		return m_results[index];
@@ -18,10 +15,9 @@ AttestationResult* SessionResults::GetResult(Discipline* discipline) {
 	}
 }
 
-void SessionResults::SetResult(Discipline* discipline, AttestationResult* result) {
+void SessionResults::SetResult(std::shared_ptr<Discipline> discipline, std::shared_ptr<AttestationResult> result) {
 	int index = m_disciplines.FindDiscipline(discipline);
 	if (index != -1) {
-		delete m_results[index];
 		m_results[index] = result;
 	} else {
 		m_disciplines.AddDiscipline(discipline);
@@ -29,11 +25,10 @@ void SessionResults::SetResult(Discipline* discipline, AttestationResult* result
 	}
 }
 
-void SessionResults::DeleteResult(Discipline* discipline) {
+void SessionResults::DeleteResult(std::shared_ptr<Discipline> discipline) {
 	int index = m_disciplines.FindDiscipline(discipline);
 	if (index != -1) {
 		m_disciplines.RemoveDisciplineAt(index);
-		delete m_results[index];
 		m_results.erase(m_results.begin() + index);
 	}
 }
