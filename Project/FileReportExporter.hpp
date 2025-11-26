@@ -6,7 +6,7 @@
 
 
 // Абстрактный класс для экспорта отчёта
-class ReportExporter {
+class FileReportExporter {
 protected:
 	std::string m_filePath; // Путь к файлу для сохранения отчёта
 	std::string m_title; // Заголовок отчета
@@ -14,8 +14,8 @@ protected:
 	bool m_includeDate; // Включать ли дату генерации в отчет
 
 public:
-	ReportExporter(const std::string& filePath, const std::string& title = "", const std::string& body = "", bool includeDate = false);
-	ReportExporter(const ReportExporter& other);
+	FileReportExporter(const std::string& filePath, const std::string& title = "", const std::string& body = "", bool includeDate = false);
+	FileReportExporter(const FileReportExporter& other);
 
 
 	std::string GetFilePath();

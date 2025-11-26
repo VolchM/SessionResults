@@ -14,6 +14,10 @@ public:
 	using DisciplineArray = std::vector<std::shared_ptr<Discipline>>;
 	using AttestationResultTable = std::vector<std::vector<std::shared_ptr<AttestationResult>>>;
 
+	static const std::string FIO_COLUMN_HEADER;
+	static const std::string AVERAGE_COLUMN_HEADER;
+	static const int EXTRA_COLUMNS_COUNT;
+
 private:
 	StudentArray m_students;
 	DisciplineArray m_disciplines;
@@ -44,4 +48,11 @@ public:
 
 	// Возвращает средний балл группы по экзаменам
 	int GroupAverage() const;
+
+
+	std::vector<std::string> TableHeader() const;
+
+	std::vector<std::vector<std::string>> TableBodyToStrings(bool compactResults) const;
+
+	std::vector<std::string> TableDisciplineAverages() const;
 };
