@@ -5,19 +5,15 @@ using System.Text;
 
 namespace SessionResultsCS
 {
-    public class TXTReportExporter : ReportExporter
+    public class TXTReportExporter : FileReportExporter
     {
-        private const char TABLE_CROSS_SYMBOL = '+';
-        private const char TABLE_HORIZONTAL_SYMBOL = '-';
-        private const char TABLE_VERTICAL_SYMBOL = '|';
+        public const char TABLE_CROSS_SYMBOL = '+';
+        public const char TABLE_HORIZONTAL_SYMBOL = '-';
+        public const char TABLE_VERTICAL_SYMBOL = '|';
 
-        private const string FIO_COLUMN_HEADER = "ФИО";
-        private const string AVERAGE_COLUMN_HEADER = "Средний балл";
-        private const int EXTRA_COLUMNS_COUNT = 2;
-
-        private const int MIN_COLUMN_WIDTH = 1;
-        private const int RESULT_COLUMN_WIDTH = 3;
-        private const int CELL_PADDING = 1;
+        public const int MIN_COLUMN_WIDTH = 1;
+        public const int RESULT_COLUMN_WIDTH = 3;
+        public const int CELL_PADDING = 1;
 
 
         public TXTReportExporter(string filePath, string? title = null, string? body = null, bool includeDate = false)
@@ -29,8 +25,7 @@ namespace SessionResultsCS
         public override void Export(GroupTable groupTable)
         {
             GroupTableData data = groupTable.GetTableData();
-            int[] widths = CalculateColumnWidths(data);
-            string separator = TableSeparator(widths);
+            
 
             using (StreamWriter writer = new StreamWriter(FilePath))
             {
@@ -50,17 +45,7 @@ namespace SessionResultsCS
                     writer.WriteLine();
                 }
 
-                writer.WriteLine(separator);
-                writer.WriteLine(TableHeader(widths));
-                writer.WriteLine(separator);
-                foreach (string row in TableBodyToStrings(data, widths))
-                {
-                    writer.WriteLine(row);
-                }
-                writer.WriteLine(separator);
-                writer.WriteLine(TableDisciplineAverages(data, widths));
-                writer.WriteLine(separator);
-
+                writer.WriteLine(RenderTable(data));
                 writer.WriteLine();
 
                 for (int i = 0; i < data.Disciplines.Length; i++)
@@ -71,13 +56,37 @@ namespace SessionResultsCS
         }
 
 
-        private static int[] CalculateColumnWidths(GroupTableData data)
+        // Преобразует таблицу в текст
+        public virtual string RenderTable(GroupTableData data)
         {
-            int[] widths = new int[data.Disciplines.Length + EXTRA_COLUMNS_COUNT];
+            int[] widths = CalculateColumnWidths(data);
+            string separator = TableSeparator(widths, TABLE_CROSS_SYMBOL, TABLE_HORIZONTAL_SYMBOL);
+
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine(separator);
+            builder.AppendLine(TableRow(data.TableHeader(), widths, TABLE_VERTICAL_SYMBOL));
+            builder.AppendLine(separator);
+            foreach (string[] cells in data.TableBodyToStrings(true))
+            {
+                builder.AppendLine(TableRow(cells, widths, TABLE_VERTICAL_SYMBOL));
+            }
+            builder.AppendLine(separator);
+            builder.AppendLine(TableRow(data.TableDisciplineAverages(), widths, TABLE_VERTICAL_SYMBOL));
+            builder.Append(separator);
+
+            return builder.ToString();
+        }
+
+
+        protected static int[] CalculateColumnWidths(GroupTableData data)
+        {
+            int[] widths = new int[data.Disciplines.Length + GroupTableData.EXTRA_COLUMNS_COUNT];
             for (int i = 0; i < widths.Length; i++)
             {
                 widths[i] = MIN_COLUMN_WIDTH;
             }
+            widths[0] = Math.Max(widths[0], GroupTableData.FIO_COLUMN_HEADER.Length);
             foreach (Student student in data.Students)
             {
                 widths[0] = Math.Max(widths[0], student.GetLastNameWithInitials().Length);
@@ -86,85 +95,35 @@ namespace SessionResultsCS
             {
                 widths[i] = Math.Max(widths[i], RESULT_COLUMN_WIDTH);
             }
-            widths[widths.Length - 1] = Math.Max(widths[widths.Length - 1], AVERAGE_COLUMN_HEADER.Length);
+            widths[widths.Length - 1] = Math.Max(widths[widths.Length - 1], GroupTableData.AVERAGE_COLUMN_HEADER.Length);
 
             return widths;
         }
 
-        private static string TableSeparator(int[] widths)
+        protected static string TableSeparator(int[] widths, char crossSymbol, char horizontalSymbol)
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append(TABLE_CROSS_SYMBOL);
+            builder.Append(crossSymbol);
             foreach (int width in widths)
             {
-                builder.Append(TABLE_HORIZONTAL_SYMBOL, width + CELL_PADDING * 2);
-                builder.Append(TABLE_CROSS_SYMBOL);
+                builder.Append(horizontalSymbol, width + CELL_PADDING * 2);
+                builder.Append(crossSymbol);
             }
             return builder.ToString();
         }
 
-        private static string TableRow(string[] cells, int[] widths)
+        protected static string TableRow(string[] cells, int[] widths, char verticalSymbol)
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append(TABLE_VERTICAL_SYMBOL);
+            builder.Append(verticalSymbol);
             for (int i = 0; i < widths.Length; i++)
             {
                 builder.Append(' ', CELL_PADDING);
                 builder.Append(cells[i].PadLeft(widths[i]));
                 builder.Append(' ', CELL_PADDING);
-                builder.Append(TABLE_VERTICAL_SYMBOL);
+                builder.Append(verticalSymbol);
             }
             return builder.ToString();
-        }
-
-        private static string TableHeader(int[] widths)
-        {
-            string[] cells = new string[widths.Length];
-            cells[0] = FIO_COLUMN_HEADER;
-            for (int i = 1; i <= widths.Length - 2; i++)
-            {
-                cells[i] = i.ToString();
-            }
-            cells[widths.Length - 1] = AVERAGE_COLUMN_HEADER;
-
-            return TableRow(cells, widths);
-        }
-
-        private static string[] TableBodyToStrings(GroupTableData data, int[] widths)
-        {
-            string[] result = new string[data.Students.Length];
-
-            int[] studentAverages = data.StudentAverages();
-            for (int i = 0; i < data.Students.Length; i++)
-            {
-                string[] cells = new string[widths.Length];
-
-                cells[0] = data.Students[i].GetLastNameWithInitials();
-                for (int j = 0; j < data.Disciplines.Length; j++)
-                {
-                    cells[j + 1] = data.TableBody[i, j]?.ToStringCompact() ?? "";
-                }
-                cells[widths.Length - 1] = studentAverages[i].ToString();
-
-                result[i] = TableRow(cells, widths);
-            }
-
-            return result;
-        }
-
-        private string TableDisciplineAverages(GroupTableData data, int[] widths)
-        {
-            string[] cells = new string[widths.Length];
-
-            cells[0] = "";
-            int[] disciplineAverages = data.DisciplineAverages();
-            for (int i = 1; i <= data.Disciplines.Length; i++)
-            {
-                cells[i] = disciplineAverages[i - 1].ToString();
-            }
-            cells[widths.Length - 1] = data.GroupAverage().ToString();
-
-            return TableRow(cells, widths);
         }
     }
 }
