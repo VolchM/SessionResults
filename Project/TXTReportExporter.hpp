@@ -23,6 +23,7 @@ protected:
 public:
 	TXTReportExporter(const std::string& filePath, const std::string& title = "", const std::string& body = "", bool includeDate = false);
 	TXTReportExporter(const TXTReportExporter& other);
+	~TXTReportExporter();
 
 	void Export(const GroupTable& groupTable) override;
 

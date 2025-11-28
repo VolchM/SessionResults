@@ -49,6 +49,10 @@ TXTReportExporter::TXTReportExporter(const std::string& filePath, const std::str
 TXTReportExporter::TXTReportExporter(const TXTReportExporter& other):
 	FileReportExporter(other) {}
 
+TXTReportExporter::~TXTReportExporter() {
+	std::cout << "TXTReportExporter(filePath='" << m_filePath << "') destructor called" << std::endl;
+}
+
 void TXTReportExporter::Export(const GroupTable& groupTable) {
 	GroupTableData data = groupTable.GetTableData();
 	
