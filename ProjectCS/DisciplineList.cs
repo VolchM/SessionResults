@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace SessionResultsCS
 {
     // Класс для хранения списка дисциплин
-    public class DisciplineList
+    public class DisciplineList: IEnumerable<Discipline>
     {
         public const int DISCIPLINE_NOT_FOUND = -1;
 
@@ -64,6 +65,17 @@ namespace SessionResultsCS
         {
             return _disciplines.IndexOf(discipline);
         }
+
+        public IEnumerator<Discipline> GetEnumerator()
+        {
+            return _disciplines.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
 
         // Добавляет дисциплину в список и возвращает true при успешном добавлении, иначе false
         public bool AddDiscipline(Discipline discipline)

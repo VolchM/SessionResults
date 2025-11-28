@@ -59,7 +59,7 @@ namespace SessionResultsCS
             Discipline[] disciplines;
             AttestationResult?[,] tableBody;
 
-            disciplines = Disciplines.GetDisciplines().ToArray();
+            disciplines = Disciplines.ToArray();
 
 
             if (IncludeOnlyFailing)
