@@ -19,12 +19,12 @@ public:
 	FileReportExporter(const FileReportExporter& other);
 
 
-	std::string GetFilePath();
+	std::string GetFilePath() const;
 	void SetFilePath(const std::string& value);
-	std::string GetTitle();
+	std::string GetTitle() const;
 	void SetTitle(const std::string& value);
-	std::string GetBody();
+	std::string GetBody() const;
 	void SetBody(const std::string& value);
-	bool GetIncludeDate();
+	bool GetIncludeDate() const;
 	void SetIncludeDate(bool value);
 };

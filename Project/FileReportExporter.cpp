@@ -14,7 +14,7 @@ FileReportExporter::FileReportExporter(const FileReportExporter& other) {
 	m_includeDate = other.m_includeDate;
 }
 
-std::string FileReportExporter::GetFilePath() {
+std::string FileReportExporter::GetFilePath() const {
 	return m_filePath;
 }
 
@@ -22,7 +22,7 @@ void FileReportExporter::SetFilePath(const std::string& value) {
 	m_filePath = value;
 }
 
-std::string FileReportExporter::GetTitle() {
+std::string FileReportExporter::GetTitle() const {
 	return m_title;
 }
 
@@ -30,7 +30,7 @@ void FileReportExporter::SetTitle(const std::string& value) {
 	m_title = value;
 }
 
-std::string FileReportExporter::GetBody() {
+std::string FileReportExporter::GetBody() const {
 	return m_body;
 }
 
@@ -38,7 +38,7 @@ void FileReportExporter::SetBody(const std::string& value) {
 	m_body = value;
 }
 
-bool FileReportExporter::GetIncludeDate() {
+bool FileReportExporter::GetIncludeDate() const {
 	return m_includeDate;
 }
 
