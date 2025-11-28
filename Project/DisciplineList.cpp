@@ -7,6 +7,18 @@ DisciplineList::DisciplineList(const std::vector<std::shared_ptr<Discipline>>& d
 
 DisciplineList::DisciplineList(const DisciplineList& other): m_disciplines(other.m_disciplines) {}
 
+DisciplineList DisciplineList::ShallowClone() const {
+	return DisciplineList(m_disciplines);
+}
+
+DisciplineList DisciplineList::DeepClone() const {
+	DisciplineList disciplineList;
+	for (const std::shared_ptr<Discipline>& discipline : m_disciplines) {
+		disciplineList.AddDiscipline(std::make_shared<Discipline>(*discipline));
+	}
+	return disciplineList;
+}
+
 
 int DisciplineList::GetSize() const {
 	return m_disciplines.size();

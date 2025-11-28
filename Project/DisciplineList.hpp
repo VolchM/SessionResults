@@ -19,6 +19,9 @@ public:
 	DisciplineList(const std::vector<std::shared_ptr<Discipline>>& disciplines);
 	DisciplineList(const DisciplineList& other);
 
+	DisciplineList ShallowClone() const;
+	DisciplineList DeepClone() const;
+
 	// Возвращает количество дисциплин в списке
 	int GetSize() const;
 
