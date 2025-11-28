@@ -25,6 +25,22 @@ namespace SessionResultsCS
         }
 
 
+        public DisciplineList ShallowClone()
+        {
+            return new DisciplineList(_disciplines);
+        }
+
+        public DisciplineList DeepClone()
+        {
+            DisciplineList disciplineList = new DisciplineList();
+            foreach (Discipline discipline in _disciplines)
+            {
+                disciplineList.AddDiscipline(discipline.Clone());
+            }
+            return disciplineList;
+        }
+
+
         // Возвращает количество дисциплин в списке
         public int GetSize()
         {
