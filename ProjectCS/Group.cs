@@ -56,6 +56,12 @@ namespace SessionResultsCS
         }
 
 
+        // Возвращает список дисциплин группы
+        public DisciplineList GetDisciplineList()
+        {
+            return Speciality.GetDisciplineList(Course);
+        }
+
         // Возвращает количество студентов в группе
         public int GetStudentCount()
         {
