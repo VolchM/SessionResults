@@ -8,6 +8,15 @@ OutlinedTXTReportExporter::OutlinedTXTReportExporter(const std::string& filePath
 OutlinedTXTReportExporter::OutlinedTXTReportExporter(const OutlinedTXTReportExporter& other) :
     TXTReportExporter(other) {}
 
+OutlinedTXTReportExporter& OutlinedTXTReportExporter::operator=(const TXTReportExporter& other) {
+    m_filePath = other.GetFilePath();
+    m_title = other.GetTitle();
+    m_body = other.GetBody();
+    m_includeDate = other.GetIncludeDate();
+    return *this;
+}
+
+
 std::string OutlinedTXTReportExporter::RenderTable(const GroupTableData& data) {
     std::string table = TXTReportExporter::RenderTable(data);
     int width = table.find('\n');

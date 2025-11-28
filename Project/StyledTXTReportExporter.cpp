@@ -8,6 +8,15 @@ StyledTXTReportExporter::StyledTXTReportExporter(const std::string& filePath, co
 StyledTXTReportExporter::StyledTXTReportExporter(const StyledTXTReportExporter& other) :
 	TXTReportExporter(other), m_tableStyle(other.m_tableStyle) {}
 
+StyledTXTReportExporter& StyledTXTReportExporter::operator=(const TXTReportExporter& other) {
+	m_filePath = other.GetFilePath();
+	m_title = other.GetTitle();
+	m_body = other.GetBody();
+	m_includeDate = other.GetIncludeDate();
+	m_tableStyle = TableStyle('+', '-', '|');
+	return *this;
+}
+
 
 const TableStyle & StyledTXTReportExporter::GetTableStyle() const {
 	return m_tableStyle;

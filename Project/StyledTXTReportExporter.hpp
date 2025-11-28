@@ -12,7 +12,7 @@ protected:
 public:
 	StyledTXTReportExporter(const std::string& filePath, const TableStyle& style, const std::string& title = "", const std::string& body = "", bool includeDate = false);	
 	StyledTXTReportExporter(const StyledTXTReportExporter& other);
-
+	StyledTXTReportExporter& operator=(const TXTReportExporter& other);
 
 	const TableStyle& GetTableStyle() const;
 	void SetTableStyle(const TableStyle& style);
