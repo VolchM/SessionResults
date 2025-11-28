@@ -3,7 +3,7 @@ using System;
 namespace SessionResultsCS
 {
     // Результат экзамена
-    public class ExamResult : AttestationResult
+    public class ExamResult : AttestationResult, IComparable<ExamResult>
     {
         public const int MIN_SCORE = 0;
         public const int MAX_SCORE = 100;
@@ -42,6 +42,11 @@ namespace SessionResultsCS
         public override int ToScore()
         {
             return Score;
+        }
+
+        public int CompareTo(ExamResult? other)
+        {
+            return Score.CompareTo(other?.Score);
         }
     }
 }
