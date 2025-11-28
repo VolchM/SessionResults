@@ -1,12 +1,13 @@
 #pragma once
 
+#include "IReportExporter.hpp"
 #include "GroupTable.hpp"
 
 #include <string>
 
 
-// Абстрактный класс для экспорта отчёта
-class FileReportExporter {
+// Абстрактный класс для экспорта отчёта в файл
+class FileReportExporter : public IReportExporter {
 protected:
 	std::string m_filePath; // Путь к файлу для сохранения отчёта
 	std::string m_title; // Заголовок отчета
@@ -26,8 +27,4 @@ public:
 	void SetBody(const std::string& value);
 	bool GetIncludeDate();
 	void SetIncludeDate(bool value);
-
-	// Экспортирует таблицу группы
-	virtual void Export(const GroupTable& groupTable) = 0;
 };
-
