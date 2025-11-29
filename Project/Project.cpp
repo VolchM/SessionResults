@@ -6,6 +6,8 @@
 #include "PassFailExamResult.hpp"
 #include "GroupTable.hpp"
 #include "TXTReportExporter.hpp"
+#include "StyledTXTReportExporter.hpp"
+#include "OutlinedTXTReportExporter.hpp"
 
 #include <iostream>
 
@@ -29,11 +31,11 @@ int main() {
     pi_43->AddStudent(std::make_shared<Student>(12307377, "Сергей", "Сергеев", "Сергеевич"));
     pi_43->AddStudent(std::make_shared<Student>(12303537, "Алексей", "Алексеев", "Алексеевич"));
     pi_43->AddStudent(std::make_shared<Student>(12303890, "Дмитрий", "Дмитриев", "Дмитриевич"));
-    
+
 
     srand(13);
     for (const std::shared_ptr<Student>& student : pi_43->GetStudents()) {
-        for (const std::shared_ptr<Discipline>& discipline : pi->GetDisciplineList(pi_43->GetCourse()).GetDisciplines()) {
+        for (const std::shared_ptr<Discipline>& discipline : pi_43->GetDisciplineList().GetDisciplines()) {
             if (discipline->GetAttestationType() == Discipline::AttestationType::eExam) {
                 student->GetSessionResults().SetResult(discipline, std::make_shared<ExamResult>(rand() % 101));
             } else {
@@ -42,48 +44,28 @@ int main() {
         }
     }
 
-    std::cout << pi->GetCode() << " " << pi->GetName() << " " << pi->GetGroupAt(0)->GetName() << std::endl;
-
-    for (int i = 0; i < pi->GetGroupAt(0)->GetStudentCount(); i++) {
-        std::cout << (i+1) << ". " << pi->GetGroupAt(0)->GetStudentAt(i)->GetFullName() << std::endl;
-    }
-    
-
     GroupTable groupTable(pi_43);
-    groupTable.SetDisciplineList(pi->GetDisciplineList(2));
-    
+    groupTable.SetDisciplineList(pi_43->GetDisciplineList());
     groupTable.SortByDiscipline(groupTable.GetDisciplineList().GetDisciplineAt(1), GroupTable::SortOrder::eAscending);
 
-    GroupTableData data = groupTable.GetTableData();
-    std::cout << std::endl;
-    for (int i = 0; i < data.GetStudents().size(); i++) {
-        std::cout << data.GetStudents()[i]->GetLastNameWithInitials() << ": ";
-        for (auto& cell : data.GetTableBody()[i]) {
-            if (cell) {
-                std::cout << *cell;
-            } else {
-                std::cout << " ";
-            }
-            std::cout << " ";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << "Средний балл группы: " << data.GroupAverage() << std::endl;
-    std::cout << std::endl;
-
-
-    std::unique_ptr<ReportExporter> exporter = std::make_unique<TXTReportExporter>("report1.txt", "Отчёт об успеваемости студентов группы ПИ-43");
-
-    exporter->Export(groupTable);
+    std::unique_ptr<IReportExporter> exporter1 = std::make_unique<TXTReportExporter>("report1.txt", "Отчёт об успеваемости студентов группы ПИ-43");
+    exporter1->Export(groupTable);
     std::cout << "Отчёт сохранён в report1.txt" << std::endl;
 
     groupTable.GetDisciplineList().RemoveDiscipline(pi->GetDisciplineList(2).GetDisciplines()[1]);
     groupTable.SortByAverage(GroupTable::SortOrder::eDescending);
     groupTable.SetIncludeOnlyFailing(true);
 
-    exporter->SetFilePath("report2.txt");
-    exporter->SetTitle("Отчёт о неуспевающих студентах группы ПИ-43");
-    exporter->SetIncludeDate(true);
-    exporter->Export(groupTable);
+    std::unique_ptr<IReportExporter> exporter2 = std::make_unique<StyledTXTReportExporter>("report2.txt", TableStyle('0', '=', '|'), "Отчёт о неуспевающих студентах группы ПИ-43", "", true);
+    exporter2->Export(groupTable);
     std::cout << "Отчёт сохранён в report2.txt" << std::endl;
+
+    groupTable.GetDisciplineList().RemoveDisciplineAt(1);
+    groupTable.GetDisciplineList().AddDiscipline(pi_43->GetDisciplineList().GetDisciplineAt(1));
+
+    OutlinedTXTReportExporter exporter3("test.txt");
+    // Присваивание объекта базового класса производному типу
+    exporter3 = TXTReportExporter("report3.txt", "Отчёт о неуспевающих студентах группы ПИ-43", "", true);
+    exporter3.Export(groupTable);
+    std::cout << "Отчёт сохранён в report3.txt" << std::endl;
 }

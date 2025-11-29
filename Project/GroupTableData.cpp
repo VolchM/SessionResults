@@ -1,5 +1,9 @@
 #include "GroupTableData.hpp"
 
+const std::string GroupTableData::FIO_COLUMN_HEADER = "ФИО";
+const std::string GroupTableData::AVERAGE_COLUMN_HEADER = "Средний балл";
+const int GroupTableData::EXTRA_COLUMNS_COUNT = 2;
+
 
 GroupTableData::GroupTableData(const StudentArray& students, const DisciplineArray& disciplines,
 	const AttestationResultTable& tableBody) :
@@ -64,4 +68,51 @@ int GroupTableData::GroupAverage() const {
 		return 0;
 	}
 	return res / m_students.size();
+}
+
+
+std::vector<std::string> GroupTableData::TableHeader() const {
+	std::vector<std::string> cells;
+	cells.push_back(FIO_COLUMN_HEADER);
+	for (int i = 1; i <= m_disciplines.size(); i++) {
+		cells.push_back(std::to_string(i));
+	}
+	cells.push_back(AVERAGE_COLUMN_HEADER);
+
+	return cells;
+}
+
+std::vector<std::vector<std::string>> GroupTableData::TableBodyToStrings(bool compactResults) const {
+	std::vector<std::vector<std::string>> result;
+
+	std::vector<int> studentAverages = StudentAverages();
+	for (int i = 0; i < m_students.size(); i++) {
+		std::vector<std::string> cells(m_disciplines.size() + EXTRA_COLUMNS_COUNT);
+
+		cells[0] = m_students[i]->GetLastNameWithInitials();
+		for (int j = 0; j < m_disciplines.size(); j++) {
+			const std::shared_ptr<AttestationResult>& res = m_tableBody[i][j];
+			if (compactResults) {
+				cells[j + 1] = res ? res->ToStringCompact() : "";
+			} else {
+				cells[j + 1] = res ? res->ToString() : "";
+			}
+		}
+		cells.back() = std::to_string(studentAverages[i]);
+
+		result.push_back(cells);
+	}
+
+	return result;
+}
+
+std::vector<std::string> GroupTableData::TableDisciplineAverages() const {
+	std::vector<std::string> cells;
+	cells.push_back("");
+	for (int average : DisciplineAverages()) {
+		cells.push_back(std::to_string(average));
+	}
+	cells.push_back(std::to_string(GroupAverage()));
+
+	return cells;
 }
