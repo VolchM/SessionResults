@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace SessionResultsCS
 {
     // Класс для хранения списка дисциплин
-    public class DisciplineList
+    public class DisciplineList: IEnumerable<Discipline>
     {
         public const int DISCIPLINE_NOT_FOUND = -1;
 
@@ -22,6 +23,22 @@ namespace SessionResultsCS
         public DisciplineList(IEnumerable<Discipline> disciplines)
         {
             _disciplines = new List<Discipline>(disciplines);
+        }
+
+
+        public DisciplineList ShallowClone()
+        {
+            return new DisciplineList(_disciplines);
+        }
+
+        public DisciplineList DeepClone()
+        {
+            DisciplineList disciplineList = new DisciplineList();
+            foreach (Discipline discipline in _disciplines)
+            {
+                disciplineList.AddDiscipline(discipline.Clone());
+            }
+            return disciplineList;
         }
 
 
@@ -48,6 +65,17 @@ namespace SessionResultsCS
         {
             return _disciplines.IndexOf(discipline);
         }
+
+        public IEnumerator<Discipline> GetEnumerator()
+        {
+            return _disciplines.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
 
         // Добавляет дисциплину в список и возвращает true при успешном добавлении, иначе false
         public bool AddDiscipline(Discipline discipline)

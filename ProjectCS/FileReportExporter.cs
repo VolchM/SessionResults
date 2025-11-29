@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SessionResultsCS
 {
-    public abstract class ReportExporter
+    public abstract class FileReportExporter : IReportExporter
     {
         // Путь к файлу для сохранения отчёта
         public string FilePath { get; set; }
@@ -15,7 +15,7 @@ namespace SessionResultsCS
         public bool IncludeDate { get; set; }
 
 
-        public ReportExporter(string filePath, string? title = null, string? body = null, bool includeDate = false)
+        public FileReportExporter(string filePath, string? title = null, string? body = null, bool includeDate = false)
         {
             FilePath = filePath;
             Title = title;

@@ -23,22 +23,11 @@ namespace SessionResultsCS
             pi43.AddStudent(new Student(pi43, 12303537, "Алексей", "Алексеев", "Алексеевич"));
             pi43.AddStudent(new Student(pi43, 12303890, "Дмитрий", "Дмитриев", "Дмитриевич"));
 
-            try
-            {
-                pi43.AddStudent(new Student(pi43, 12303690, "Иван    Иванов", "Иванович", ""));
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine("Поймано исключение:");
-                Console.WriteLine(ex);
-            }
-            Console.WriteLine($"Создано специальностей: {Speciality.InstanceCount}");
-
 
             Random rand = new Random(1);
             foreach (Student student in pi43.GetStudents())
             {
-                foreach (Discipline discipline in pi.GetDisciplineList(2).GetDisciplines())
+                foreach (Discipline discipline in pi43.GetDisciplineList())
                 {
                     if (discipline.AttestationType == AttestationType.Exam)
                     {
@@ -51,48 +40,29 @@ namespace SessionResultsCS
                 }
             }
 
-
-            Console.WriteLine($"{pi.Code} {pi.Name} {pi.GetGroupAt(0).Name}");
-
-            for (int i = 0; i < pi43.GetStudentCount(); i++)
-            {
-                Console.WriteLine($"{i+1}. {pi43.GetStudentAt(i).GetFullName()}");
-            }
-
-
             GroupTable groupTable = new GroupTable(pi43);
-            groupTable.Disciplines = new DisciplineList(pi.GetDisciplineList(2).GetDisciplines());
+            groupTable.Disciplines = pi43.GetDisciplineList().ShallowClone();
             groupTable.SortByDiscipline(groupTable.Disciplines.GetDisciplineAt(1), SortOrder.Ascending);
 
-            GroupTableData data = groupTable.GetTableData();
 
-            Console.WriteLine();
-            for (int i = 0; i < data.Students.Length; i++)
-            {
-                Console.Write("{0}: ", data.Students[i].GetLastNameWithInitials());
-                for (int j = 0; j < data.Disciplines.Length; j++)
-                {
-                    Console.Write("{0} ", data.TableBody[i, j]?.ToString() ?? "_");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine($"Средний балл группы: {data.GroupAverage()}");
-            Console.WriteLine();
-
-            ReportExporter exporter = new TXTReportExporter("report1.txt", "Отчёт об успеваемости студентов группы ПИ-43");
-            exporter.Export(groupTable);
+            IReportExporter exporter1 = new TXTReportExporter("report1.txt", "Отчёт об успеваемости студентов группы ПИ-43");
+            exporter1.Export(groupTable);
             Console.WriteLine("Отчёт сохранён в report1.txt");
-
 
             groupTable.Disciplines.RemoveDisciplineAt(1);
             groupTable.SortByAverage(SortOrder.Descending);
             groupTable.IncludeOnlyFailing = true;
 
-            exporter.FilePath = "report2.txt";
-            exporter.Title = "Отчёт о неуспевающих студентах группы ПИ-43";
-            exporter.IncludeDate = true;
-            exporter.Export(groupTable);
+            IReportExporter exporter2 = new StyledTXTReportExporter("report2.txt", new('0', '=', '|'), "Отчёт о неуспевающих студентах группы ПИ-43", includeDate: true);
+            exporter2.Export(groupTable);
             Console.WriteLine("Отчёт сохранён в report2.txt");
+
+            groupTable.Disciplines.RemoveDisciplineAt(1);
+            groupTable.Disciplines.AddDiscipline(pi43.GetDisciplineList().GetDisciplineAt(1));
+
+            IReportExporter exporter3 = new OutlinedTXTReportExporter("report3.txt", "Отчёт о неуспевающих студентах группы ПИ-43", includeDate: true);
+            exporter3.Export(groupTable);
+            Console.WriteLine("Отчёт сохранён в report3.txt");
 
             Console.Write("Нажмите Enter, чтобы закрыть программу...");
             Console.ReadLine();

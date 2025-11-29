@@ -39,6 +39,12 @@ namespace SessionResultsCS
         }
 
 
+        public Discipline Clone()
+        {
+            return new Discipline(Name, AttestationType);
+        }
+
+
         // Проверяет равенство с другой дисциплин
         public override bool Equals(object? obj)
         {
