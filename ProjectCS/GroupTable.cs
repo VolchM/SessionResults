@@ -57,7 +57,7 @@ namespace SessionResultsCS
         {
             Student[] students;
             Discipline[] disciplines;
-            AttestationResult?[,] tableBody;
+            AttestationResult?[][] tableBody;
 
             disciplines = Disciplines.ToArray();
 
@@ -81,33 +81,21 @@ namespace SessionResultsCS
             }
             else
             {
-                func = student =>
-                {
-                    int sum = 0;
-                    foreach (Discipline discipline in disciplines)
-                    {
-                        if (discipline.AttestationType == AttestationType.Exam)
-                        {
-                            sum += student.SessionResults.GetResult(discipline)?.ToScore() ?? 0;
-                        }
-                    }
-                    return sum;
-                };
+                func = student => disciplines
+                    .Where(discipline => discipline.AttestationType == AttestationType.Exam)
+                    .Select(discipline => student.SessionResults.GetResult(discipline)?.ToScore() ?? 0)
+                    .Sum();
             }
             students = (_sortOrder == SortOrder.Ascending
                 ? students.OrderBy(func)
                 : students.OrderByDescending(func)
             ).ToArray();
 
-
-            tableBody = new AttestationResult?[students.Length, disciplines.Length];
-            for (int i = 0; i < students.Length; i++)
-            {
-                for (int j = 0; j < disciplines.Length; j++)
-                {
-                    tableBody[i, j] = students[i].SessionResults.GetResult(disciplines[j]);
-                }
-            }
+            tableBody = students
+                .Select(student => disciplines
+                    .Select(discipline => student.SessionResults.GetResult(discipline))
+                    .ToArray()
+                ).ToArray();
 
             return new GroupTableData(students, disciplines, tableBody);
         }
