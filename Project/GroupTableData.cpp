@@ -1,5 +1,10 @@
 #include "GroupTableData.hpp"
 
+#include <algorithm>
+#include <ranges>
+#include <numeric>
+
+
 const std::string GroupTableData::FIO_COLUMN_HEADER = "ФИО";
 const std::string GroupTableData::AVERAGE_COLUMN_HEADER = "Средний балл";
 const int GroupTableData::EXTRA_COLUMNS_COUNT = 2;
@@ -28,46 +33,47 @@ const GroupTableData::AttestationResultTable& GroupTableData::GetTableBody() con
 	return m_tableBody;
 }
 
+
+template<std::ranges::range R>
+requires std::is_arithmetic_v<std::ranges::range_value_t<R>>
+double RangeAverage(R&& r) {
+	auto [sum, size] = std::accumulate(
+		std::ranges::begin(r),
+		std::ranges::end(r),
+		std::pair(0.0, 0),
+		[](auto acc, auto cur) {
+			return std::pair(acc.first + cur, acc.second + 1);
+		}
+	);
+	return size == 0 ? 0.0 : sum / size;
+}
+
 std::vector<int> GroupTableData::StudentAverages() const {
 	std::vector<int> studentAverages(m_students.size(), 0);
+
 	for (int i = 0; i < m_students.size(); i++) {
-		int k = 0;
-		for (int j = 0; j < m_disciplines.size(); j++) {
-			if (m_disciplines[j]->GetAttestationType() == Discipline::AttestationType::eExam) {
-				studentAverages[i] += m_tableBody[i][j]->ToPercent();
-				k += 1;
-			}
-		}
-		if (k != 0) {
-			studentAverages[i] /= k;
-		}
+		studentAverages[i] = static_cast<int>(RangeAverage(
+			std::views::iota(0, static_cast<int>(m_disciplines.size()))
+			| std::views::filter([&](int j) { return m_disciplines[j]->GetAttestationType() == Discipline::AttestationType::eExam; })
+			| std::views::transform([&](int j) { return m_tableBody[i][j] ? m_tableBody[i][j]->ToScore() : 0; })
+		));
 	}
 	return studentAverages;
 }
 
 std::vector<int> GroupTableData::DisciplineAverages() const {
 	std::vector<int> disciplineAverages(m_disciplines.size(), 0);
-	for (int i = 0; i < m_disciplines.size(); i++) {
-		for (int j = 0; j < m_students.size(); j++) {
-			disciplineAverages[i] += m_tableBody[j][i] ? m_tableBody[j][i]->ToPercent() : 0;
-		}
-		if (m_students.size() != 0) {
-			disciplineAverages[i] /= m_students.size();
-		}
+	for (int j = 0; j < m_disciplines.size(); j++) {
+		disciplineAverages[j] = static_cast<int>(RangeAverage(
+			std::views::iota(0, static_cast<int>(m_students.size()))
+			| std::views::transform([&](int i) { return m_tableBody[i][j] ? m_tableBody[i][j]->ToScore() : 0; })
+		));
 	}
 	return disciplineAverages;
 }
 
 int GroupTableData::GroupAverage() const {
-	std::vector<int> studentAverages = StudentAverages();
-	int res = 0;
-	for (int i = 0; i < m_students.size(); i++) {
-		res += studentAverages[i];
-	}
-	if (m_students.size() == 0) {
-		return 0;
-	}
-	return res / m_students.size();
+	return static_cast<int>(RangeAverage(StudentAverages()));
 }
 
 
@@ -86,21 +92,21 @@ std::vector<std::vector<std::string>> GroupTableData::TableBodyToStrings(bool co
 	std::vector<std::vector<std::string>> result;
 
 	std::vector<int> studentAverages = StudentAverages();
+
 	for (int i = 0; i < m_students.size(); i++) {
-		std::vector<std::string> cells(m_disciplines.size() + EXTRA_COLUMNS_COUNT);
+		std::vector<std::string> cells;
 
-		cells[0] = m_students[i]->GetLastNameWithInitials();
-		for (int j = 0; j < m_disciplines.size(); j++) {
-			const std::shared_ptr<AttestationResult>& res = m_tableBody[i][j];
-			if (compactResults) {
-				cells[j + 1] = res ? res->ToStringCompact() : "";
-			} else {
-				cells[j + 1] = res ? res->ToString() : "";
+		cells.push_back(m_students[i]->GetLastNameWithInitials());
+		std::ranges::transform(m_tableBody[i],
+			std::back_inserter(cells),
+			[&](auto& res) {
+				if (!res) return std::string();
+				return (compactResults ? res->ToStringCompact() : res->ToString());
 			}
-		}
-		cells.back() = std::to_string(studentAverages[i]);
+		);
+		cells.push_back(std::to_string(studentAverages[i]));
 
-		result.push_back(cells);
+		result.push_back(std::move(cells));
 	}
 
 	return result;
