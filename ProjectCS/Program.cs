@@ -40,6 +40,18 @@ namespace SessionResultsCS
                 }
             }
 
+
+            ResultsList<ExamResult> resultsList1 = new ResultsList<ExamResult>(pi43.GetStudents(), pi43.GetDisciplineList().GetDisciplineAt(1));
+            resultsList1.AddRange([new ExamResult(100), new ExamResult(90)]);
+            Console.WriteLine($"Results: {string.Join(", ", resultsList1)}");
+            Console.WriteLine($"Average score: {resultsList1.AverageScore()}, pass percent: {resultsList1.PassedPercent():0.##}");
+
+            ResultsList<PassFailExamResult> resultsList2 = new ResultsList<PassFailExamResult>(pi43.GetStudents(), pi43.GetDisciplineList().GetDisciplineAt(0));
+            resultsList2.AddRange([new PassFailExamResult(true), new PassFailExamResult(false)]);
+            Console.WriteLine($"Results: {string.Join(", ", resultsList2)}");
+            Console.WriteLine($"Average score: {resultsList2.AverageScore()}, pass percent: {resultsList2.PassedPercent():0.##}");
+
+
             GroupTable groupTable = new GroupTable(pi43);
             groupTable.Disciplines = pi43.GetDisciplineList().ShallowClone();
             groupTable.SortByDiscipline(groupTable.Disciplines.GetDisciplineAt(1), SortOrder.Ascending);
