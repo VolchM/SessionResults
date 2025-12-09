@@ -8,8 +8,10 @@
 #include "TXTReportExporter.hpp"
 #include "StyledTextTableRenderer.hpp"
 #include "OutlinedTextTableRenderer.hpp"
+#include "ResultsList.hpp"
 
 #include <iostream>
+#include <format>
 
 
 int main() {
@@ -43,6 +45,24 @@ int main() {
             }
         }
     }
+
+
+    ResultsList<ExamResult> resultsList1(pi_43->GetStudents(), pi_43->GetDisciplineList().GetDisciplineAt(1));
+    resultsList1.Add(std::make_shared<ExamResult>(90));
+    for (auto& result : resultsList1.GetResults()) {
+        std::cout << result->ToString() << " ";
+    }
+    std::cout << std::endl;
+    std::cout << std::format("Average score : {}, pass percent : {:.2f}", resultsList1.AverageScore(), resultsList1.PassedPercent()) << std::endl;
+
+    ResultsList<PassFailExamResult> resultsList2(pi_43->GetStudents(), pi_43->GetDisciplineList().GetDisciplineAt(0));
+    resultsList2.Add(std::make_shared<PassFailExamResult>(true));
+    for (auto& result : resultsList2.GetResults()) {
+        std::cout << result->ToString() << "  ";
+    }
+    std::cout << std::endl;
+    std::cout << std::format("Average score : {}, pass percent : {:.2f}", resultsList2.AverageScore(), resultsList2.PassedPercent()) << std::endl;
+
 
     GroupTable groupTable(pi_43);
     groupTable.SetDisciplineList(pi_43->GetDisciplineList());
