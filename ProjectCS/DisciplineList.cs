@@ -66,6 +66,12 @@ namespace SessionResultsCS
             return _disciplines.IndexOf(discipline);
         }
 
+        // Находит дисциплину по названию и возвращает её индекс. Если такой дисциплины нет в списке возвращает DISCIPLINE_NOT_FOUND
+        public int FindDisciplineByName(string name)
+        {
+            return _disciplines.FindIndex(discipline => discipline.Name == name);
+        }
+
         public IEnumerator<Discipline> GetEnumerator()
         {
             return _disciplines.GetEnumerator();
