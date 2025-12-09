@@ -83,14 +83,7 @@ namespace SessionResultsCS
         // Находит студента по номеру студенческго билета и возвращает его индекс. Если такого студента нет в списке возвращает STUDENT_NOT_FOUND
         public int FindStudentByID(uint studentID)
         {
-            for (int i = 0; i < _students.Count; i++)
-            {
-                if (_students[i].StudentID == studentID)
-                {
-                    return i;
-                }
-            }
-            return STUDENT_NOT_FOUND;
+            return _students.FindIndex(student => student.StudentID == studentID);
         }
 
         // Добавляет студента и возвращает true при успешном добавлении, иначе false

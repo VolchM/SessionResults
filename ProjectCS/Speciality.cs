@@ -103,14 +103,7 @@ namespace SessionResultsCS
         // Находит группу по названию и возвращает её индекс. Если такой группы нет в списке возвращает GROUP_NOT_FOUND
         public int FindGroupByName(string name)
         {
-            for (int i = 0; i < _groups.Count; i++)
-            {
-                if (_groups[i].Name == name)
-                {
-                    return i;
-                }
-            }
-            return GROUP_NOT_FOUND;
+            return _groups.FindIndex(group => group.Name == name);
         }
 
         // Добавляет группу
