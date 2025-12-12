@@ -45,7 +45,7 @@ namespace SessionResultsCS
             groupTable.SortByDiscipline(groupTable.Disciplines.GetDisciplineAt(1), SortOrder.Ascending);
 
 
-            IReportExporter exporter1 = new TXTReportExporter("report1.txt", "Отчёт об успеваемости студентов группы ПИ-43");
+            IReportExporter exporter1 = new TXTReportExporter("report1.txt", StyledTextTableRenderer.Default, "Отчёт об успеваемости студентов группы ПИ-43");
             exporter1.Export(groupTable);
             Console.WriteLine("Отчёт сохранён в report1.txt");
 
@@ -53,14 +53,14 @@ namespace SessionResultsCS
             groupTable.SortByAverage(SortOrder.Descending);
             groupTable.IncludeOnlyFailing = true;
 
-            IReportExporter exporter2 = new StyledTXTReportExporter("report2.txt", new('0', '=', '|'), "Отчёт о неуспевающих студентах группы ПИ-43", includeDate: true);
+            IReportExporter exporter2 = new TXTReportExporter("report2.txt", new StyledTextTableRenderer('0', '=', '|'), "Отчёт о неуспевающих студентах группы ПИ-43", includeDate: true);
             exporter2.Export(groupTable);
             Console.WriteLine("Отчёт сохранён в report2.txt");
 
             groupTable.Disciplines.RemoveDisciplineAt(1);
             groupTable.Disciplines.AddDiscipline(pi43.GetDisciplineList().GetDisciplineAt(1));
 
-            IReportExporter exporter3 = new OutlinedTXTReportExporter("report3.txt", "Отчёт о неуспевающих студентах группы ПИ-43", includeDate: true);
+            IReportExporter exporter3 = new TXTReportExporter("report3.txt", new OutlinedTextTableRenderer('0', '-', '|'), "Отчёт о неуспевающих студентах группы ПИ-43", includeDate: true);
             exporter3.Export(groupTable);
             Console.WriteLine("Отчёт сохранён в report3.txt");
 

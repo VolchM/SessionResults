@@ -1,24 +1,22 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SessionResultsCS
 {
-    public class OutlinedTXTReportExporter : TXTReportExporter
+    public class OutlinedTextTableRenderer : StyledTextTableRenderer
     {
-        public OutlinedTXTReportExporter(string filePath, string? title = null, string? body = null, bool includeDate = false)
-            : base(filePath, title, body, includeDate)
-        {
-        }
+        public new static OutlinedTextTableRenderer Default { get; } = new OutlinedTextTableRenderer('+', '-', '|');
+
+
+        public OutlinedTextTableRenderer(char crossSymbol, char horizontalSymbol, char verticalSymbol) :
+            base(crossSymbol, horizontalSymbol, verticalSymbol) { }
 
         public override string RenderTable(GroupTableData data)
         {
             string table = base.RenderTable(data);
             int width = table.IndexOf(Environment.NewLine);
-            string outline = TABLE_CROSS_SYMBOL + new string(TABLE_HORIZONTAL_SYMBOL, width) + TABLE_CROSS_SYMBOL;
+            string outline = CrossSymbol + new string(HorizontalSymbol, width) + CrossSymbol;
 
             StringBuilder builder = new StringBuilder();
 
@@ -27,9 +25,9 @@ namespace SessionResultsCS
             {
                 string? line;
                 while ((line = reader.ReadLine()) != null) {
-                    builder.Append(TABLE_VERTICAL_SYMBOL);
+                    builder.Append(VerticalSymbol);
                     builder.Append(line);
-                    builder.Append(TABLE_VERTICAL_SYMBOL);
+                    builder.Append(VerticalSymbol);
                     builder.AppendLine();
                 }
             }
