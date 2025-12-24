@@ -6,8 +6,8 @@
 #include "PassFailExamResult.hpp"
 #include "GroupTable.hpp"
 #include "TXTReportExporter.hpp"
-#include "StyledTXTReportExporter.hpp"
-#include "OutlinedTXTReportExporter.hpp"
+#include "StyledTextTableRenderer.hpp"
+#include "OutlinedTextTableRenderer.hpp"
 
 #include <iostream>
 
@@ -48,24 +48,22 @@ int main() {
     groupTable.SetDisciplineList(pi_43->GetDisciplineList());
     groupTable.SortByDiscipline(groupTable.GetDisciplineList().GetDisciplineAt(1), GroupTable::SortOrder::eAscending);
 
-    std::unique_ptr<IReportExporter> exporter1 = std::make_unique<TXTReportExporter>("report1.txt", "Отчёт об успеваемости студентов группы ПИ-43");
+    std::unique_ptr<IReportExporter> exporter1 = std::make_unique<TXTReportExporter>("report1.txt", StyledTextTableRenderer::GetDefault(), "Отчёт об успеваемости студентов группы ПИ-43");
     exporter1->Export(groupTable);
     std::cout << "Отчёт сохранён в report1.txt" << std::endl;
 
-    groupTable.GetDisciplineList().RemoveDiscipline(pi->GetDisciplineList(2).GetDisciplines()[1]);
+    groupTable.GetDisciplineList().RemoveDiscipline(pi->GetDisciplineList(2).GetDisciplineAt(1));
     groupTable.SortByAverage(GroupTable::SortOrder::eDescending);
     groupTable.SetIncludeOnlyFailing(true);
 
-    std::unique_ptr<IReportExporter> exporter2 = std::make_unique<StyledTXTReportExporter>("report2.txt", TableStyle('0', '=', '|'), "Отчёт о неуспевающих студентах группы ПИ-43", "", true);
+    std::unique_ptr<IReportExporter> exporter2 = std::make_unique<TXTReportExporter>("report2.txt", std::make_unique<StyledTextTableRenderer>('0', '=', '|'), "Отчёт о неуспевающих студентах группы ПИ-43", "", true);
     exporter2->Export(groupTable);
     std::cout << "Отчёт сохранён в report2.txt" << std::endl;
 
     groupTable.GetDisciplineList().RemoveDisciplineAt(1);
     groupTable.GetDisciplineList().AddDiscipline(pi_43->GetDisciplineList().GetDisciplineAt(1));
 
-    OutlinedTXTReportExporter exporter3("test.txt");
-    // Присваивание объекта базового класса производному типу
-    exporter3 = TXTReportExporter("report3.txt", "Отчёт о неуспевающих студентах группы ПИ-43", "", true);
-    exporter3.Export(groupTable);
+    std::unique_ptr<IReportExporter> exporter3 = std::make_unique<TXTReportExporter>("report3.txt", std::make_unique<OutlinedTextTableRenderer>('0', '-', '|'), "Отчёт о неуспевающих студентах группы ПИ-43", "", true);
+    exporter3->Export(groupTable);
     std::cout << "Отчёт сохранён в report3.txt" << std::endl;
 }
