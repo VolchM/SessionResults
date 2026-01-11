@@ -8,14 +8,14 @@ namespace SessionResultsCS
         // Путь к файлу для сохранения отчёта
         public string FilePath { get; set; }
         // Заголовок отчета
-        public string? Title { get; set; }
+        public string Title { get; set; }
         // Текст отчета
-        public string? Body { get; set; }
+        public string Body { get; set; }
         // Включать ли дату генерации в отчет
         public bool IncludeDate { get; set; }
 
 
-        public FileReportExporter(string filePath, string? title = null, string? body = null, bool includeDate = false)
+        public FileReportExporter(string filePath, string title = "", string body = "", bool includeDate = false)
         {
             FilePath = filePath;
             Title = title;

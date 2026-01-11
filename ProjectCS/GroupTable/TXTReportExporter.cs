@@ -10,7 +10,7 @@ namespace SessionResultsCS
         public ITextTableRenderer Renderer { get; set; }
 
 
-        public TXTReportExporter(string filePath, ITextTableRenderer renderer, string? title = null, string? body = null, bool includeDate = false)
+        public TXTReportExporter(string filePath, ITextTableRenderer renderer, string title = "", string body = "", bool includeDate = false)
             : base(filePath, title, body, includeDate)
         {
             Renderer = renderer;
@@ -23,12 +23,12 @@ namespace SessionResultsCS
             
             using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                if (Title != null)
+                if (Title != "")
                 {
                     writer.WriteLine(Title);
                     writer.WriteLine();
                 }
-                if (Body != null)
+                if (Body != "")
                 {
                     writer.WriteLine(Body);
                     writer.WriteLine();
