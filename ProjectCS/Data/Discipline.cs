@@ -55,6 +55,11 @@ namespace SessionResultsCS
             return false;
         }
 
+        public override string ToString()
+        {
+            return $"{Name} - {AttestationType switch { AttestationType.Exam => "Экзамен", AttestationType.PassFailExam => "Зачёт" }}";
+        }
+
 
         public static bool operator ==(Discipline left, Discipline right)
         {

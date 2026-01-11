@@ -72,6 +72,11 @@ namespace SessionResultsCS
         }
 
 
+        public override string ToString()
+        {
+            return $"{Code} - {Name}";
+        }
+
         // Возвращает список дисциплин курса для чтения и изменения
         public DisciplineList GetDisciplineList(int course)
         {

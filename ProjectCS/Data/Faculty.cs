@@ -37,6 +37,11 @@ namespace SessionResultsCS
         }
 
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         // Возвращает количество специальностей
         public int GetSpecialityCount()
         {

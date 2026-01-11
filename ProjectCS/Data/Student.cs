@@ -72,6 +72,11 @@ namespace SessionResultsCS
         }
 
 
+        public override string ToString()
+        {
+            return $"{StudentID} - {GetFullName()}";
+        }
+
         // Возвращает полное имя (фамилию, имя и отчество)
         public string GetFullName()
         {

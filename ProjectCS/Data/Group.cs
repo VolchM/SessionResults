@@ -56,6 +56,11 @@ namespace SessionResultsCS
         }
 
 
+        public override string ToString()
+        {
+            return $"{Name} - {Course} курс";
+        }
+
         // Возвращает список дисциплин группы
         public DisciplineList GetDisciplineList()
         {
