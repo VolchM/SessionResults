@@ -11,30 +11,21 @@ namespace SessionResultsCS
 
     public class Discipline
     {
-        private string _name;
-
-
         // Название дисциплины
-        public string Name {
-            get { return _name; }
-            set
-            {
-                string newName = value.Trim();
-                if (newName.Length == 0)
-                {
-                    throw new ArgumentException("Discipline name cannot be empty");
-                }
-                _name = newName;
-            }
-        }
+        public string Name { get; }
 
         // Тип аттестации
-        public AttestationType AttestationType { get; set; }
+        public AttestationType AttestationType { get; }
 
 
         public Discipline(string name, AttestationType attestationType)
         {
-            Name = name;
+            string trimmedName = name.Trim();
+            if (trimmedName.Length == 0)
+            {
+                throw new ArgumentException("Discipline name cannot be empty");
+            }
+            Name = trimmedName;
             AttestationType = attestationType;
         }
 
@@ -69,6 +60,11 @@ namespace SessionResultsCS
         public static bool operator !=(Discipline left, Discipline right)
         {
             return !(left == right);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, AttestationType);
         }
     }
 }

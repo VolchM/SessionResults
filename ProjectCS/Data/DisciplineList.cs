@@ -83,15 +83,14 @@ namespace SessionResultsCS
         }
 
 
-        // Добавляет дисциплину в список и возвращает true при успешном добавлении, иначе false
-        public bool AddDiscipline(Discipline discipline)
+        // Добавляет дисциплину в список
+        public void AddDiscipline(Discipline discipline)
         {
             if (FindDiscipline(discipline) != DISCIPLINE_NOT_FOUND)
             {
-                return false;
+                throw new ArgumentException("Added discipline is already in list");
             }
             _disciplines.Add(discipline);
-            return true;
         }
 
         // Убирает дисциплину из списка по индексу
@@ -100,16 +99,15 @@ namespace SessionResultsCS
             _disciplines.RemoveAt(index);
         }
 
-        // Убирает дисциплину из списка и возвращает true при успешном удалении, иначе false
-        public bool RemoveDiscipline(Discipline discipline)
+        // Убирает дисциплину из списка
+        public void RemoveDiscipline(Discipline discipline)
         {
             int index = FindDiscipline(discipline);
             if (index == DISCIPLINE_NOT_FOUND)
             {
-                return false;
+                throw new ArgumentException("Deleted discipline is not in list");
             }
             _disciplines.RemoveAt(index);
-            return true;
         }
     }
 }
