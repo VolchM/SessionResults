@@ -90,6 +90,16 @@ namespace SessionResultsCS
             return _disciplines[course - MIN_COURSE];
         }
 
+        // Устанавливает список дисциплин
+        public void SetDisciplineList(int course, DisciplineList disciplines)
+        {
+            if (!(course >= Speciality.MIN_COURSE && course <= Speciality.MAX_COURSE))
+            {
+                throw new ArgumentException("Invalid course value");
+            }
+            _disciplines[course - MIN_COURSE] = disciplines;
+        }
+
         // Возвращает количество групп специальности
         public int GetGroupCount()
         {

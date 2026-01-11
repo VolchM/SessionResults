@@ -58,7 +58,7 @@ namespace SessionResultsCS
         public Group Group { get; }
 
         // Результаты сессии
-        public SessionResults SessionResults { get; }
+        public SessionResults SessionResults { get; set; }
 
 
         public Student(Group group, uint studentID, string firstName, string lastName, string middleName)
