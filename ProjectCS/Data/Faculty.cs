@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -55,26 +55,26 @@ namespace SessionResultsCS
             return _specialities.AsReadOnly();
         }
 
-        // Находит специальность по названию и возвращает её индекс. Если такой специальности нет в списке возвращает SPECIALITY_NOT_FOUND
-        public int FindSpecialityByName(string name)
+        // Находит специальность по коду и возвращает её индекс. Если такой специальности нет в списке возвращает SPECIALITY_NOT_FOUND
+        public int FindSpecialityByCode(string code)
         {
-            return _specialities.FindIndex(speciality => speciality.Name == name);
+            return _specialities.FindIndex(speciality => speciality.Code == code);
         }
 
         // Добавляет специальность
         public void AddSpeciality(Speciality speciality)
         {
-            if (FindSpecialityByName(speciality.Name) != SPECIALITY_NOT_FOUND)
+            if (FindSpecialityByCode(speciality.Code) != SPECIALITY_NOT_FOUND)
             {
                 throw new ArgumentException("Faculty already contains added speciality");
             }
             _specialities.Add(speciality);
         }
 
-        // Удаляет специальность по названию
-        public void DeleteSpecialityByName(string name)
+        // Удаляет специальность по коду
+        public void DeleteSpecialityByCode(string code)
         {
-            int index = FindSpecialityByName(name);
+            int index = FindSpecialityByCode(code);
             if (index == SPECIALITY_NOT_FOUND)
             {
                 throw new ArgumentException("Faculty doesn't contain deleted speciality");
@@ -85,7 +85,7 @@ namespace SessionResultsCS
         // Удаляет специальность
         public void DeleteSpeciality(Speciality speciality)
         {
-            DeleteSpecialityByName(speciality.Name);
+            DeleteSpecialityByCode(speciality.Code);
         }
     }
 }
