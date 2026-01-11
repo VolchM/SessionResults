@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SessionResultsCS
 {
@@ -18,6 +19,11 @@ namespace SessionResultsCS
             _results = new List<AttestationResult>();
         }
 
+        // Возвращает список дисциплин, по которым получены результаты
+        public ReadOnlyCollection<Discipline> GetDisciplines()
+        {
+            return _disciplines.GetDisciplines();
+        }
 
         // Возвращает результат по дисциплине либо null, если по этой дисциплине результата нет
         public AttestationResult? GetResult(Discipline discipline)
