@@ -15,6 +15,10 @@ namespace SessionResultsCS
 
 
         public ExamResult(int score) {
+            if (score < MIN_SCORE || score > MAX_SCORE)
+            {
+                throw new ArgumentException("Invalid score value");
+            }
             Score = score;
         }
 
