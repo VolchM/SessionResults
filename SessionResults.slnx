@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Project/Project.vcxproj" Id="b4ed520b-199a-4fe2-92cd-60a78e0b8991" />
+  <Project Path="ProjectCS/ProjectCS.csproj" />
+</Solution>

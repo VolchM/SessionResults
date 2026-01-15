@@ -1,13 +1,13 @@
-#include "Speciality.hpp"
-#include "Discipline.hpp"
-#include "Group.hpp"
-#include "Student.hpp"
-#include "ExamResult.hpp"
-#include "PassFailExamResult.hpp"
-#include "GroupTable.hpp"
-#include "TXTReportExporter.hpp"
-#include "StyledTextTableRenderer.hpp"
-#include "OutlinedTextTableRenderer.hpp"
+#include "Data/Speciality.hpp"
+#include "Data/Discipline.hpp"
+#include "Data/Group.hpp"
+#include "Data/Student.hpp"
+#include "Data/ExamResult.hpp"
+#include "Data/PassFailExamResult.hpp"
+#include "GroupTable/GroupTable.hpp"
+#include "GroupTable/TXTReportExporter.hpp"
+#include "GroupTable/StyledTextTableRenderer.hpp"
+#include "GroupTable/OutlinedTextTableRenderer.hpp"
 
 #include <iostream>
 

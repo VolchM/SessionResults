@@ -1,0 +1,32 @@
+#pragma once
+
+#include "Data/AttestationResult.hpp"
+#include "Data/ExamResult.hpp"
+#include "Data/PassFailExamResult.hpp"
+#include "Data/Discipline.hpp"
+#include "Data/DisciplineList.hpp"
+
+#include <vector>
+#include <memory>
+
+
+// Результаты сессии
+class SessionResults {
+private:
+	DisciplineList m_disciplines; // Список дисциплин, по которым получены результаты
+	std::vector<std::shared_ptr<AttestationResult>> m_results; // Список полученных результатов
+
+public:
+	SessionResults();
+	SessionResults(const SessionResults& other);
+
+
+	// Возвращает результат по дисциплине
+	std::shared_ptr<AttestationResult> GetResult(std::shared_ptr<Discipline> discipline);
+
+	// Устанавливает результат по дисциплине
+	void SetResult(std::shared_ptr<Discipline> discipline, std::shared_ptr<AttestationResult> result);
+
+	// Удаляет результат по дисциплине
+	void DeleteResult(std::shared_ptr<Discipline> discipline);
+};
