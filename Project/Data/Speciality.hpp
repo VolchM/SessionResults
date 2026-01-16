@@ -9,6 +9,8 @@
 
 
 class Speciality : public std::enable_shared_from_this<Speciality> {
+	friend class Faculty;
+
 public:
 	static const int MIN_COURSE = 1;
 	static const int MAX_COURSE = 4;
@@ -20,6 +22,7 @@ private:
 
 	std::string m_code; // Код специальности
 	std::string m_name; // Название специальности
+	std::weak_ptr<Faculty> m_faculty; // Факультет специальности
 	DisciplineList m_disciplines[MAX_COURSE]; // Список дисциплин на каждом курсе
 	std::vector<std::shared_ptr<Group>> m_groups; // Список групп
 
@@ -43,6 +46,9 @@ public:
 
 	// Устанавливает название специальности
 	void SetName(const std::string& value);
+
+	// Возвращает факультет специальности
+	std::weak_ptr<Faculty> GetFaculty() const;
 
 	// Возвращает список дисциплин курса для чтения и изменения
 	DisciplineList& GetDisciplineList(int course);

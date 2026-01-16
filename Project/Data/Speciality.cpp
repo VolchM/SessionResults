@@ -44,6 +44,10 @@ void Speciality::SetName(const std::string& value) {
     m_name = std::move(newValue);
 }
 
+std::weak_ptr<Faculty> Speciality::GetFaculty() const {
+    return m_faculty;
+}
+
 DisciplineList& Speciality::GetDisciplineList(int course) {
     if (!(course >= MIN_COURSE && course <= MAX_COURSE)) {
         throw std::invalid_argument("Invalid course value");
