@@ -25,6 +25,8 @@ public:
 	Group(const Group& other) = delete;
 
 
+	std::string ToString() const;
+
 	// Возвращает название группы
 	const std::string& GetName() const;
 

@@ -4,6 +4,7 @@
 #include "Data/Speciality.hpp"
 
 #include <stdexcept>
+#include <format>
 
 
 Group::Group(const std::string& name, int course) {
@@ -11,6 +12,10 @@ Group::Group(const std::string& name, int course) {
     SetCourse(course);
 }
 
+
+std::string Group::ToString() const {
+    return std::format("{} - {} курс", m_name, m_course);
+}
 
 const std::string& Group::GetName() const {
     return m_name;

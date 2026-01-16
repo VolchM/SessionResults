@@ -3,6 +3,7 @@
 #include "StringUtils.hpp"
 
 #include <stdexcept>
+#include <format>
 
 
 Student::Student(unsigned int studentID, const std::string& firstName, const std::string& lastName, const std::string& middleName) {
@@ -10,6 +11,11 @@ Student::Student(unsigned int studentID, const std::string& firstName, const std
     SetFirstName(firstName);
     SetLastName(lastName);
     SetMiddleName(middleName);
+}
+
+
+std::string Student::ToString() const {
+    return std::format("{} - {}", m_studentID, GetFullName());
 }
 
 unsigned int Student::GetStudentID() const {

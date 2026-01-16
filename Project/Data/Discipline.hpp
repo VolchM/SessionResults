@@ -23,6 +23,8 @@ public:
 	Discipline(const Discipline& other);
 
 
+	std::string ToString() const;
+
 	// Возвращает название дисциплины
 	const std::string& GetName() const;
 

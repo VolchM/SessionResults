@@ -35,6 +35,9 @@ public:
 	Speciality(const Speciality& other) = delete;
 	~Speciality();
 
+
+	std::string ToString() const;
+
 	// Возвращает код специальности
 	const std::string& GetCode() const;
 

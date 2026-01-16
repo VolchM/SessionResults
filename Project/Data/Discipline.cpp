@@ -3,6 +3,7 @@
 #include "StringUtils.hpp"
 
 #include <stdexcept>
+#include <format>
 
 
 Discipline::Discipline(std::string name, AttestationType attestationType) {
@@ -11,6 +12,16 @@ Discipline::Discipline(std::string name, AttestationType attestationType) {
 }
 
 Discipline::Discipline(const Discipline& other): m_name(other.m_name), m_attestationType(other.m_attestationType) {}
+
+
+std::string Discipline::ToString() const {
+	switch (m_attestationType) {
+	case AttestationType::eExam:
+		return std::format("{} - Экзамен", m_name);
+	case AttestationType::ePassFailExam:
+		return std::format("{} - Зачёт", m_name);
+	}
+}
 
 const std::string& Discipline::GetName() const {
 	return m_name;

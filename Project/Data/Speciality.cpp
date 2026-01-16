@@ -3,6 +3,8 @@
 #include "StringUtils.hpp"
 
 #include <stdexcept>
+#include <format>
+
 
 int Speciality::s_instanceCount = 0;
 
@@ -20,6 +22,10 @@ Speciality::~Speciality() {
     s_instanceCount--;
 }
 
+
+std::string Speciality::ToString() const {
+    return std::format("{} - {}", m_code, m_name);
+}
 
 const std::string& Speciality::GetCode() const {
     return m_code;

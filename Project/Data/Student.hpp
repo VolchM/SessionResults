@@ -23,6 +23,8 @@ public:
 	Student(const Student& other) = delete;
 
 
+	std::string ToString() const;
+
 	// Возвращает номер студенческого билета
 	unsigned int GetStudentID() const;
 
