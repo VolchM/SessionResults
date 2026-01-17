@@ -80,19 +80,24 @@ GroupTableData GroupTable::GetTableData() const {
         }
     );
 
-    auto getScoreOrZero = [](auto& student, auto& discipline) {
-        const auto& res = student->GetSessionResults().GetResult(discipline);
-        return res ? res->ToScore() : 0;
+    auto getExamScoreOrZero = [](auto& student, auto& discipline) {
+        if (discipline->GetAttestationType() == Discipline::AttestationType::eExam) {
+            const auto& res = student->GetSessionResults().GetResult(discipline);
+            return res ? res->ToScore() : 0;
+        } else {
+            return 0;
+        }
     };
 
     std::ranges::sort(students,
         [&](int a, int b) { return m_sortOrder == SortOrder::eAscending ? a < b : a > b; },
         [&](auto& student) {
             if (m_sortColumn != nullptr) {
-                return getScoreOrZero(student, m_sortColumn);
+                const auto& res = student->GetSessionResults().GetResult(m_sortColumn);
+                return res ? res->ToScore() : 0;
             } else {
                 return std::accumulate(disciplines.begin(), disciplines.end(), 0,
-                    [&](int acc, auto& discipline) { return acc + getScoreOrZero(student, discipline); }
+                    [&](int acc, auto& discipline) { return acc + getExamScoreOrZero(student, discipline); }
                 );
             }
         }
