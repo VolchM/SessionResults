@@ -21,8 +21,11 @@ public:
 	SessionResults(const SessionResults& other);
 
 
+	// Возвращает список дисциплин, по которым получены результаты
+	const DisciplineList& GetDisciplineList() const;
+
 	// Возвращает результат по дисциплине
-	std::shared_ptr<AttestationResult> GetResult(std::shared_ptr<Discipline> discipline);
+	std::shared_ptr<AttestationResult> GetResult(std::shared_ptr<Discipline> discipline) const;
 
 	// Устанавливает результат по дисциплине
 	void SetResult(std::shared_ptr<Discipline> discipline, std::shared_ptr<AttestationResult> result);

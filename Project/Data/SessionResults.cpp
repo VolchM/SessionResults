@@ -6,7 +6,11 @@ SessionResults::SessionResults(): m_disciplines(), m_results() {}
 SessionResults::SessionResults(const SessionResults& other): m_disciplines(other.m_disciplines), m_results(other.m_results) {}
 
 
-std::shared_ptr<AttestationResult> SessionResults::GetResult(std::shared_ptr<Discipline> discipline) {
+const DisciplineList& SessionResults::GetDisciplineList() const {
+	return m_disciplines;
+}
+
+std::shared_ptr<AttestationResult> SessionResults::GetResult(std::shared_ptr<Discipline> discipline) const {
 	int index = m_disciplines.FindDiscipline(discipline);
 	if (index != -1) {
 		return m_results[index];
