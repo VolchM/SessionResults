@@ -1,5 +1,7 @@
 #include "Data/DisciplineList.hpp"
 
+#include <stdexcept>
+
 
 DisciplineList::DisciplineList(): m_disciplines() {}
 
@@ -42,23 +44,21 @@ const std::vector<std::shared_ptr<Discipline>>& DisciplineList::GetDisciplines()
 }
 
 
-bool DisciplineList::AddDiscipline(std::shared_ptr<Discipline> discipline) {
+void DisciplineList::AddDiscipline(std::shared_ptr<Discipline> discipline) {
 	if (FindDiscipline(discipline) != DISCIPLINE_NOT_FOUND) {
-		return false;
+		throw std::invalid_argument("Added discipline is already in list");
 	}
 	m_disciplines.push_back(discipline);
-	return true;
 }
 
 void DisciplineList::RemoveDisciplineAt(int index) {
 	m_disciplines.erase(m_disciplines.begin() + index);
 }
 
-bool DisciplineList::RemoveDiscipline(std::shared_ptr<Discipline> discipline) {
+void DisciplineList::RemoveDiscipline(std::shared_ptr<Discipline> discipline) {
 	int index = FindDiscipline(discipline);
 	if (index == DISCIPLINE_NOT_FOUND) {
-		return false;
+		throw std::invalid_argument("Deleted discipline is not in list");
 	}
 	RemoveDisciplineAt(index);
-	return true;
 }

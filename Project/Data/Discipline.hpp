@@ -28,14 +28,8 @@ public:
 	// Возвращает название дисциплины
 	const std::string& GetName() const;
 
-	// Устанавливает название дисциплины
-	void SetName(const std::string& value);
-
 	// Возвращает тип аттестации
 	AttestationType GetAttestationType() const;
-
-	// Устанавливает тип аттестации
-	void SetAttestationType(AttestationType value);
 
 	// Проверяет равенство с другой дисциплин
 	bool Equals(const Discipline& other) const;

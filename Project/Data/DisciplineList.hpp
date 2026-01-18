@@ -35,12 +35,12 @@ public:
 	int FindDiscipline(std::shared_ptr<Discipline> discipline) const;
 
 	
-	// Добавляет дисциплину в список и возвращает true при успешном добавлении, иначе false
-	bool AddDiscipline(std::shared_ptr<Discipline> discipline);
+	// Добавляет дисциплину в список
+	void AddDiscipline(std::shared_ptr<Discipline> discipline);
 
 	// Убирает дисциплину по индексу
 	void RemoveDisciplineAt(int index);
 
-	// Убирает дисциплину из списка и возвращает true при успешном удалении, иначе false
-	bool RemoveDiscipline(std::shared_ptr<Discipline> discipline);
+	// Убирает дисциплину из списка
+	void RemoveDiscipline(std::shared_ptr<Discipline> discipline);
 };
