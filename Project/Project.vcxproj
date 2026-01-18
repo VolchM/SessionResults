@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Data\FacultyJsonStorage.cpp" />
+    <ClCompile Include="Data\JsonConvert.cpp" />
+    <ClCompile Include="UI\BaseItemPicker.cpp" />
     <ClCompile Include="Data\AttestationResult.cpp" />
     <ClCompile Include="Data\Discipline.cpp" />
     <ClCompile Include="Data\DisciplineList.cpp" />
@@ -37,8 +40,26 @@
     <ClCompile Include="GroupTable\TXTReportExporter.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="UI\DisciplineListPage.cpp" />
+    <ClCompile Include="UI\FacultyPage.cpp" />
+    <ClCompile Include="UI\GroupPage.cpp" />
+    <ClCompile Include="UI\GroupTablePage.cpp" />
+    <ClCompile Include="UI\ItemPicker.cpp" />
+    <ClCompile Include="UI\LoopPage.cpp" />
+    <ClCompile Include="UI\MainMenuPage.cpp" />
+    <ClCompile Include="UI\MenuActionPicker.cpp" />
+    <ClCompile Include="UI\QuickItemPicker.cpp" />
+    <ClCompile Include="UI\ResultsEditingPage.cpp" />
+    <ClCompile Include="UI\ResultsSelectPage.cpp" />
+    <ClCompile Include="UI\SpecialityPage.cpp" />
+    <ClCompile Include="UI\StudentPage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Data\FacultyJsonStorage.hpp" />
+    <ClInclude Include="Data\IFacultyStorage.hpp" />
+    <ClInclude Include="Data\JsonConvert.hpp" />
+    <ClInclude Include="Lib\json.hpp" />
+    <ClInclude Include="UI\BaseItemPicker.hpp" />
     <ClInclude Include="Data\AttestationResult.hpp" />
     <ClInclude Include="Data\Discipline.hpp" />
     <ClInclude Include="Data\DisciplineList.hpp" />
@@ -58,6 +79,20 @@
     <ClInclude Include="GroupTable\StyledTextTableRenderer.hpp" />
     <ClInclude Include="GroupTable\TXTReportExporter.hpp" />
     <ClInclude Include="StringUtils.hpp" />
+    <ClInclude Include="UI\DisciplineListPage.hpp" />
+    <ClInclude Include="UI\FacultyPage.hpp" />
+    <ClInclude Include="UI\GroupPage.hpp" />
+    <ClInclude Include="UI\GroupTablePage.hpp" />
+    <ClInclude Include="UI\IPage.hpp" />
+    <ClInclude Include="UI\ItemPicker.hpp" />
+    <ClInclude Include="UI\LoopPage.hpp" />
+    <ClInclude Include="UI\MainMenuPage.hpp" />
+    <ClInclude Include="UI\MenuActionPicker.hpp" />
+    <ClInclude Include="UI\QuickItemPicker.hpp" />
+    <ClInclude Include="UI\ResultsEditingPage.hpp" />
+    <ClInclude Include="UI\ResultsSelectPage.hpp" />
+    <ClInclude Include="UI\SpecialityPage.hpp" />
+    <ClInclude Include="UI\StudentPage.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
