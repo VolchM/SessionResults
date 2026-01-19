@@ -6,7 +6,7 @@
 
 SpecialityPage::SpecialityPage(std::shared_ptr<Speciality> speciality) {
 	m_speciality = speciality;
-	m_picker = std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
+	SetPicker(std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
 		{ "Перейти к группе", [this]() { GoToGroup(); } },
 		{ "Перейти к списку дисциплин", [this]() { GoToDisciplineList(); } },
 		{ "Изменить код специальности", [this]() { ChangeSpecialityCode(); } },
@@ -14,15 +14,13 @@ SpecialityPage::SpecialityPage(std::shared_ptr<Speciality> speciality) {
 		{ "Добавить группу", [this]() { AddGroup(); } },
 		{ "Удалить группу", [this]() { DeleteGroup(); } },
 		{ "Назад", [this]() { StopLoop(); } }
-	});
+	}));
 }
 
 void SpecialityPage::Loop() {
 	std::cout << std::format("====== {} ======\n", m_speciality->ToString());
 	std::cout << "Группы:\n";
 	PrintGroups();
-	std::cout << "Действия:\n";
-	m_picker->PickAndRun();
 }
 
 void SpecialityPage::GoToGroup() {

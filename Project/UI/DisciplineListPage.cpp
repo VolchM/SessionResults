@@ -10,19 +10,17 @@ DisciplineListPage::DisciplineListPage(std::shared_ptr<Speciality> speciality, i
 	m_disciplineList(speciality->GetDisciplineList(course)),
 	m_course(course) 
 {
-	m_picker = std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
+	SetPicker(std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
 		{ "Изменить название дисциплины", [this]() { ChangeDisciplineName(); } },
 		{ "Добавить дисциплину", [this]() { AddDiscipline(); } },
 		{ "Удалить дисциплину", [this]() { DeleteDiscipline(); } },
 		{ "Назад", [this]() { StopLoop(); } }
-	});
+	}));
 }
 
 void DisciplineListPage::Loop() {
 	std::cout << std::format("==== Дисциплины - {} курс ====\n", m_course);
 	PrintDisciplines();
-	std::cout << "Действия:\n";
-	m_picker->PickAndRun();
 }
 
 void DisciplineListPage::ChangeDisciplineName() {

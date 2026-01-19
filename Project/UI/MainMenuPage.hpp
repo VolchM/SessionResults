@@ -3,7 +3,6 @@
 #include "Data/Faculty.hpp"
 #include "Data/FacultyJsonStorage.hpp"
 #include "UI/LoopPage.hpp"
-#include "UI/MenuActionPicker.hpp"
 #include "UI/FacultyPage.hpp"
 #include "UI/ResultsSelectPage.hpp"
 #include "UI/GroupTablePage.hpp"
@@ -15,7 +14,6 @@ class MainMenuPage : public LoopPage {
 private:
 	std::string m_fileName;
 	std::unique_ptr<IFacultyStorage> m_storage;
-	std::unique_ptr<MenuActionPicker> m_picker;
 
 public:
 	MainMenuPage(const std::string& fileName);

@@ -6,21 +6,19 @@
 
 FacultyPage::FacultyPage(std::shared_ptr<Faculty> faculty) {
 	m_faculty = faculty;
-	m_picker = std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
+	SetPicker(std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
 		{ "Перейти к специальности", [this]() { GoToSpeciality(); } }, 
 		{ "Изменить название факультета", [this]() { ChangeFacultyName(); } },
 		{ "Добавить специальность", [this]() { AddSpeciality(); } },
 		{ "Удалить специальность", [this]() { DeleteSpeciality(); } },
 		{ "Сохранить изменения и вернуться в главное меню", [this]() { StopLoop(); } }
-	});
+	}));
 }
 
 void FacultyPage::Loop() {
 	std::cout << std::format("======== {} ========\n", m_faculty->GetName());
 	std::cout << "Специальности:\n";
 	PrintSpecialities();
-	std::cout << "Действия:\n";
-	m_picker->PickAndRun();
 }
 
 void FacultyPage::GoToSpeciality() {

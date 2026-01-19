@@ -2,7 +2,6 @@
 
 #include "Data/Speciality.hpp"
 #include "UI/LoopPage.hpp"
-#include "UI/MenuActionPicker.hpp"
 #include "UI/GroupPage.hpp"
 #include "UI/DisciplineListPage.hpp"
 
@@ -12,7 +11,6 @@
 class SpecialityPage : public LoopPage {
 private:
 	std::shared_ptr<Speciality> m_speciality;
-	std::unique_ptr<MenuActionPicker> m_picker;
 
 public:
 	SpecialityPage(std::shared_ptr<Speciality> speciality);

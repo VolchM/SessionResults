@@ -3,7 +3,6 @@
 #include "Data/Group.hpp"
 #include "Data/Discipline.hpp"
 #include "UI/LoopPage.hpp"
-#include "UI/MenuActionPicker.hpp"
 
 
 #include <memory>
@@ -13,7 +12,6 @@ class ResultsEditingPage : public LoopPage {
 private:
 	std::shared_ptr<Group> m_group;
 	std::shared_ptr<Discipline> m_discipline;
-	std::unique_ptr<MenuActionPicker> m_picker;
 
 public:
 	ResultsEditingPage(std::shared_ptr<Group> group, std::shared_ptr<Discipline> discipline);

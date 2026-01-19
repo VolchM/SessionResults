@@ -4,21 +4,20 @@
 MainMenuPage::MainMenuPage(const std::string& fileName) {
 	m_fileName = fileName;
 	m_storage = std::make_unique<FacultyJsonStorage>(m_fileName);
-	m_picker = std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
+	SetPicker(std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
 		{ "Создание таблицы успеваемости группы и экспорт", [this]() { GoToGroupTablePage(); } },
 		{ "Изменение информации факультета", [this]() { GoToFacultyPage(); } },
 		{ "Изменение результатов аттестации", [this]() { GoToResultsEditingPage(); } },
 		{ "Выбрать файл", [this]() { SelectFile(); } },
 		{ "Создать новый файл", [this]() { CreateNewFile(); } },
 		{ "Выход из программы", [this]() { StopLoop(); } },
-	});
+	}));
 }
 
 
 void MainMenuPage::Loop() {
 	std::cout << "========== Главное меню ==========\n";
 	std::cout << "Выбранный файл: " << m_fileName << "\n";
-	m_picker->PickAndRun();
 }
 
 void MainMenuPage::GoToGroupTablePage() {

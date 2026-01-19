@@ -2,7 +2,6 @@
 
 #include "Data/Student.hpp"
 #include "UI/LoopPage.hpp"
-#include "UI/MenuActionPicker.hpp"
 
 #include <memory>
 
@@ -10,7 +9,6 @@
 class StudentPage : public LoopPage {
 private:
 	std::shared_ptr<Student> m_student;
-	std::unique_ptr<MenuActionPicker> m_picker;
 
 public:
 	StudentPage(std::shared_ptr<Student> student);

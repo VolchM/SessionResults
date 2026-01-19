@@ -8,22 +8,20 @@
 
 GroupPage::GroupPage(std::shared_ptr<Group> group) {
 	m_group = group;
-	m_picker = std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
+	SetPicker(std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
 		{ "Перейти к студенту", [this]() { GoToStudent(); } },
 		{ "Изменить название группы", [this]() { ChangeGroupName(); } },
 		{ "Изменить курс группы", [this]() { ChangeGroupCourse(); } },
 		{ "Добавить студента", [this]() { AddStudent(); } },
 		{ "Удалить студента", [this]() { DeleteStudent(); } },
 		{ "Назад", [this]() { StopLoop(); } }
-	});
+	}));
 }
 
 void GroupPage::Loop() {
 	std::cout << std::format("==== {} ====\n", m_group->ToString());
 	std::cout << "Студенты:\n";
 	PrintStudents();
-	std::cout << "Действия:\n";
-	m_picker->PickAndRun();
 }
 
 void GroupPage::GoToStudent() {

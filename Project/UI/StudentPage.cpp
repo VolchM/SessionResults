@@ -6,19 +6,17 @@
 
 StudentPage::StudentPage(std::shared_ptr<Student> student) {
 	m_student = student;
-	m_picker = std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
+	SetPicker(std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
 		{ "Изменить номер студенческого билета", [this]() { ChangeStudentID(); } },
 		{ "Изменить имя студента", [this]() { ChangeStudentFirstName(); } },
 		{ "Изменить фамилию студента", [this]() { ChangeStudentLastName(); } },
 		{ "Изменить отчество студента", [this]() { ChangeStudentMiddleName(); } },
 		{ "Назад", [this]() { StopLoop(); } }
-	});
+	}));
 }
 
 void StudentPage::Loop() {
 	std::cout << std::format("== {} ==\n", m_student->ToString());
-	std::cout << "Действия:\n";
-	m_picker->PickAndRun();
 }
 
 void StudentPage::ChangeStudentID() {

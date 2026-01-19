@@ -12,18 +12,16 @@
 ResultsEditingPage::ResultsEditingPage(std::shared_ptr<Group> group, std::shared_ptr<Discipline> discipline) {
 	m_group = group;
 	m_discipline = discipline;
-	m_picker = std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
+	SetPicker(std::make_unique<MenuActionPicker>(std::vector<MenuActionPicker::Item>{
 		{ "Изменить результат", [this]() { ChangeResult(); } },
 		{ "Удалить результат", [this]() { DeleteResult(); } },
 		{ "Сохранить изменения и вернуться в главное меню", [this]() { StopLoop(); } }
-	});
+	}));
 }
 
 void ResultsEditingPage::Loop() {
 	std::cout << std::format("======== {}, {} ========\n", m_group->ToString(), m_discipline->ToString());
 	PrintResults();
-	std::cout << "Действия:\n";
-	m_picker->PickAndRun();
 }
 
 void ResultsEditingPage::ChangeResult() {
