@@ -43,8 +43,10 @@ void DisciplineListPage::ChangeDisciplineName() {
 			for (auto& group : m_speciality->GetGroups() | std::views::filter([&](auto& group) { return group->GetCourse() == m_course; })) {
 				for (auto& student : group->GetStudents()) {
 					std::shared_ptr<AttestationResult> result = student->GetSessionResults().GetResult(oldDiscipline);
-					student->GetSessionResults().DeleteResult(oldDiscipline);
-					student->GetSessionResults().SetResult(newDiscipline, result);
+					if (result != nullptr) {
+						student->GetSessionResults().DeleteResult(oldDiscipline);
+						student->GetSessionResults().SetResult(newDiscipline, result);
+					}
 				}
 			}
 		} catch (std::invalid_argument) {
