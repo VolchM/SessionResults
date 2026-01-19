@@ -53,11 +53,11 @@ namespace SessionResultsCS
         }
 
         // Факультет
-        public Faculty Faculcy { get; }
+        public Faculty Faculty { get; }
 
-        public Speciality(Faculty faculcy, string code, string name)
+        public Speciality(Faculty faculty, string code, string name)
         {
-            Faculcy = faculcy;
+            Faculty = faculty;
             Code = code;
             Name = name;
             _groups = new List<Group>();
