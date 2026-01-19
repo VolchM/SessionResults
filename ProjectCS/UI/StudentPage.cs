@@ -8,26 +8,21 @@ namespace SessionResultsCS.UI
     {
         private Student _student;
 
-        private MenuActionPicker _picker;
-
-
         public StudentPage(Student student)
         {
             _student = student;
-            _picker = new MenuActionPicker([
+            SetPicker(new MenuActionPicker([
                 ("Изменить номер студенческого билета", ChangeStudentID),
                 ("Изменить имя студента", ChangeStudentFirstName),
                 ("Изменить фамилию студента", ChangeStudentLastName),
                 ("Изменить отчество студента", ChangeStudentMiddleName),
                 ("Назад", StopLoop),
-            ]);
+            ]));
         }
 
         protected override void Loop()
         {
             Console.WriteLine($"== {_student} ==");
-            Console.WriteLine("Действия:");
-            _picker.PickAndRun();
         }
 
 

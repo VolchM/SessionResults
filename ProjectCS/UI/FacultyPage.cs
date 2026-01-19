@@ -9,19 +9,16 @@ namespace SessionResultsCS.UI
     {
         private Faculty _faculty;
 
-        private MenuActionPicker _picker;
-
-
         public FacultyPage(Faculty faculty)
         {
             _faculty = faculty;
-            _picker = new MenuActionPicker([
+            SetPicker(new MenuActionPicker([
                 ("Перейти к специальности", GoToSpeciality),
                 ("Изменить название факультета", ChangeFacultyName),
                 ("Добавить специальность", AddSpeciality),
                 ("Удалить специальность", DeleteSpeciality),
                 ("Сохранить изменения и вернуться в главное меню", StopLoop),
-            ]);
+            ]));
         }
 
         protected override void Loop()
@@ -29,8 +26,6 @@ namespace SessionResultsCS.UI
             Console.WriteLine($"======== {_faculty} ========");
             Console.WriteLine("Специальности:");
             PrintSpecialities();
-            Console.WriteLine("Действия:");
-            _picker.PickAndRun();
         }
 
 

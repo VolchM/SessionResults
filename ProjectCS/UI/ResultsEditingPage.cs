@@ -10,27 +10,21 @@ namespace SessionResultsCS.UI
         private Group _group;
         private Discipline _discipline;
 
-        private MenuActionPicker _picker;
-
-
         public ResultsEditingPage(Group group, Discipline discipline)
         {
             _group = group;
             _discipline = discipline;
-            _picker = new MenuActionPicker([
+            SetPicker(new MenuActionPicker([
                 ("Изменить результат", ChangeResult),
                 ("Удалить результат", DeleteResult),
                 ("Сохранить изменения и вернуться в главное меню", StopLoop),
-            ]);
+            ]));
         }
 
         protected override void Loop()
         {
             Console.WriteLine($"======== {_group}, {_discipline} ========");
             PrintResults();
-
-            Console.WriteLine("Действия: ");
-            _picker.PickAndRun();
         }
 
 

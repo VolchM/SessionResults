@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,16 +8,25 @@ namespace SessionResultsCS.UI
     {
         private bool _looping;
 
+        private MenuActionPicker? _picker;
+
         public void Start()
         {
             _looping = true;
             while (_looping)
             {
                 Loop();
+                Console.WriteLine("Действия: ");
+                _picker?.PickAndRun();
             }
         }
 
         protected abstract void Loop();
+
+        protected void SetPicker(MenuActionPicker picker)
+        {
+            _picker = picker;
+        }
 
         protected void StopLoop()
         {

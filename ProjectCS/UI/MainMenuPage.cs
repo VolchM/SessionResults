@@ -9,21 +9,19 @@ namespace SessionResultsCS.UI
         private string _fileName;
         private IFacultyStorage _storage;
 
-        private MenuActionPicker _picker;
-
 
         public MainMenuPage(string fileName)
         {
             _fileName = fileName;
             _storage = new FacultyJsonStorage(_fileName);
-            _picker = new MenuActionPicker([
+            SetPicker(new MenuActionPicker([
                 ("Создание таблицы успеваемости группы и экспорт", GoToGroupTablePage ),
                 ("Изменение информации факультета", GoToFacultyPage ),
                 ("Изменение результатов аттестации", GoToResultsEditingPage ),
                 ("Выбрать файл", SelectFile ),
                 ("Создать новый файл", CreateNewFile ),
                 ("Выход из программы", StopLoop),
-            ]);
+            ]));
         }
 
 
@@ -31,7 +29,6 @@ namespace SessionResultsCS.UI
         {
             Console.WriteLine("========== Главное меню ==========");
             Console.WriteLine($"Выбранный файл: {_fileName}");
-            _picker.PickAndRun();
         }
 
         private void GoToGroupTablePage()

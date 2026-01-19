@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,20 +9,17 @@ namespace SessionResultsCS.UI
     {
         private Group _group;
 
-        private MenuActionPicker _picker;
-
-
         public GroupPage(Group group)
         {
             _group = group;
-            _picker = new MenuActionPicker([
+            SetPicker(new MenuActionPicker([
                 ("Перейти к студенту", GoToStudent),
                 ("Изменить название группы", ChangeGroupName),
                 ("Изменить курс группы", ChangeGroupCourse),
                 ("Добавить студента", AddStudent),
                 ("Удалить студента", DeleteStudent),
                 ("Назад", StopLoop),
-            ]);
+            ]));
         }
 
         protected override void Loop() 
@@ -30,8 +27,6 @@ namespace SessionResultsCS.UI
             Console.WriteLine($"==== {_group} ====");
             Console.WriteLine("Студенты:");
             PrintStudents();
-            Console.WriteLine("Действия:");
-            _picker.PickAndRun();
         }
 
 

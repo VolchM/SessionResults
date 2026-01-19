@@ -11,28 +11,24 @@ namespace SessionResultsCS.UI
         private int _course;
 
         private DisciplineList _disciplineList;
-        private MenuActionPicker _picker;
-
 
         public DisciplineListPage(Speciality speciality, int course)
         {
             _speciality = speciality;
             _course = course;
             _disciplineList = speciality.GetDisciplineList(_course);
-            _picker = new MenuActionPicker([
+            SetPicker(new MenuActionPicker([
                 ("Изменить название дисциплины", ChangeDisciplineName),
                 ("Добавить дисциплину", AddDiscipline),
                 ("Удалить дисциплину", DeleteDiscipline),
                 ("Назад", StopLoop),
-            ]);
+            ]));
         }
 
         protected override void Loop()
         {
             Console.WriteLine($"==== Дисциплины - {_course} курс ====");
             PrintDisciplines();
-            Console.WriteLine("Действия:");
-            _picker.PickAndRun();
         }
 
 

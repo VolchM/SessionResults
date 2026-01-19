@@ -10,13 +10,10 @@ namespace SessionResultsCS.UI
     {
         private Speciality _speciality;
 
-        private MenuActionPicker _picker;
-
-
         public SpecialityPage(Speciality speciality)
         {
             _speciality = speciality;
-            _picker = new MenuActionPicker([
+            SetPicker(new MenuActionPicker([
                 ("Перейти к группе", GoToGroup),
                 ("Перейти к списку дисциплин", GoToDisciplineList),
                 ("Изменить код специальности", ChangeSpecialityCode),
@@ -24,7 +21,7 @@ namespace SessionResultsCS.UI
                 ("Добавить группу", AddGroup),
                 ("Удалить группу", DeleteGroup),
                 ("Назад", StopLoop),
-            ]);
+            ]));
         }
 
         protected override void Loop()
@@ -32,8 +29,6 @@ namespace SessionResultsCS.UI
             Console.WriteLine($"====== {_speciality} ======");
             Console.WriteLine("Группы:");
             PrintGroups();
-            Console.WriteLine("Действия:");
-            _picker.PickAndRun();
         }
 
 
